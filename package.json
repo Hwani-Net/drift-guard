@@ -1,0 +1,66 @@
+{
+  "name": "drift-guard",
+  "version": "0.1.0",
+  "description": "Protect your UI from AI coding agents' design drift. Detect, prevent, and lock design tokens during AI-assisted development.",
+  "keywords": [
+    "design-drift",
+    "ai-coding",
+    "css",
+    "design-tokens",
+    "design-system",
+    "visual-regression",
+    "cursor",
+    "claude-code",
+    "codex",
+    "copilot",
+    "pre-commit",
+    "vibe-coding",
+    "stitch",
+    "figma"
+  ],
+  "license": "MIT",
+  "author": "drift-guard contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/drift-guard"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "drift-guard": "./bin/drift-guard.mjs"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "cheerio": "^1.0.0",
+    "commander": "^13.1.0",
+    "css-tree": "^3.1.0",
+    "fast-glob": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/css-tree": "^2.3.11",
+    "@types/node": "^22.13.0",
+    "eslint": "^9.20.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

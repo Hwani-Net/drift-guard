@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.design-guard/
+*.tsbuildinfo
+coverage/
+.env
+.env.local

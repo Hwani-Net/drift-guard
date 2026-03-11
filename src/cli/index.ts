@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+import { Command } from 'commander';
+import chalk from 'chalk';
+import { initCommand } from './init.js';
+import { checkCommand } from './check.js';
+import { rulesCommand } from './rules.js';
+import { snapshotCommand } from './snapshot-cmd.js';
+
+const program = new Command();
+
+program
+  .name('drift-guard')
+  .description(
+    chalk.bold('🛡️  drift-guard') +
+    ' — Protect your UI from AI coding agents\' design drift.\n\n' +
+    '  Detect and prevent design token changes during AI-assisted development.\n' +
+    '  Lock your colors, fonts, spacing, and layout before AI agents touch your code.'
+  )
+  .version('0.1.0');
+
+program
+  .command('init')
+  .description('Initialize drift-guard and create a design snapshot')
+  .option('--from <path>', 'Create snapshot from a Stitch/HTML file')
+  .option('--threshold <number>', 'Set default drift threshold percentage', '10')
+  .action(initCommand);
+
+program
+  .command('check')
+  .description('Check for design drift against the saved snapshot')
+  .option('--threshold <number>', 'Override drift threshold percentage')
+  .option('--output <format>', 'Output format: text or json', 'text')
+  .option('--ci', 'CI mode: exit with code 1 on drift exceeding threshold')
+  .action(checkCommand);
+
+program
+  .command('rules')
+  .description('Generate AI agent rule files from the design snapshot')
+  .option('--format <type>', 'Rule format: cursorrules, claude-md, agents-md, copilot, clinerules, all', 'all')
+  .option('--append', 'Append to existing rule files instead of overwriting')
+  .action(rulesCommand);
+
+program
+  .command('snapshot')
+  .description('Manage design snapshots')
+  .command('update')
+  .description('Update the snapshot to reflect current design (after intentional changes)')
+  .option('--from <path>', 'Update from a specific Stitch/HTML file')
+  .action(snapshotCommand);
+
+program.parse();
