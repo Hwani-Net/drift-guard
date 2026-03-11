@@ -1,6 +1,6 @@
 # drift-guard — PROJECT_CONTEXT.md
 
-> 최종 수정: 2026-03-11 | 세션: 조사→기획→MVP→배포→테스트
+> 최종 수정: 2026-03-12 | 세션: 조사→기획→MVP→배포→테스트→실전검증→마케팅런치
 
 ## 프로젝트 개요
 - **이름**: drift-guard (npm: `@stayicon/drift-guard`)
@@ -26,10 +26,17 @@
 - [x] npm 배포 (`@stayicon/drift-guard@0.1.0`)
 - [x] pre-commit hook 구현 (hook install/uninstall)
 - [x] Vitest 단위 테스트 54개 (5파일, 전부 PASS)
+- [x] E2E 테스트 22개 (CLI subprocess spawn, 전부 PASS) — 총 76개
 - [x] GitHub Actions CI (Node 18/20/22 매트릭스)
 - [x] CONTRIBUTING.md 작성
-- [ ] README GIF 데모 녹화
-- [ ] HN "Show HN" 포스트 작성
+- [x] npm audit 보안 스캔 (0 vulnerabilities)
+- [x] Council 3차 리뷰 (4/5 GO 판정)
+- [x] 실전 테스트 — BizPilot(467줄, Shadcn UI)에서 검증
+- [x] Shadcn/Tailwind CSS 변수 감지 버그 수정 (107→150 토큰)
+- [x] CLI 데모 제작 (demo.html + cli-demo.png → README 삽입)
+- [x] Show HN 포스트 초안 (docs/show-hn-post.md)
+- [ ] git push (최신 커밋 반영)
+- [ ] Show HN 게시
 - [ ] Reddit/Dev.to/X 마케팅
 
 ## 아키텍처
@@ -37,13 +44,14 @@
 src/
 ├── cli/          ← 6개 커맨드 (init, check, rules, snapshot update, hook install, hook uninstall)
 ├── core/         ← 3개 엔진 (snapshot, drift, rules-generator)
-├── parsers/      ← 2개 파서 (CSS, HTML)
+├── parsers/      ← 2개 파서 (CSS, HTML) — Shadcn/Tailwind 색상 키워드 20+개 지원
 ├── types/        ← 타입 정의
 └── index.ts      ← 라이브러리 API
 
 tests/
-├── parsers/      ← css-parser (13), html-parser (12)
-└── core/         ← snapshot (8), drift (6), rules-generator (15)
+├── parsers/      ← css-parser (14), html-parser (12)
+├── core/         ← snapshot (8), drift (6), rules-generator (14)
+└── e2e/          ← cli (22) — subprocess spawn 방식
 ```
 
 ## 절대 규칙
@@ -52,14 +60,18 @@ tests/
 - ✅ `npx @stayicon/drift-guard init`으로 즉시 사용 가능해야 함
 - ✅ AI 에이전트 규칙 파일 생성이 핵심 차별점
 
+## 삽질 기록
+- 🐛 **CSS 변수 카테고리 미분류 (2026-03-12)**: `--primary`, `--danger`, `--accent` 등 Shadcn/Tailwind 시맨틱 색상 변수가 `other`로 분류되어 토큰에서 누락. `getCategory()`에 20+ 키워드 추가 + HSL bare 값 감지로 해결. 원인: 변수명에 `color`/`bg`/`text`만 체크하던 로직.
+
 ## NLM
 - **노트북**: `oss-strategy` (ID: 9a2d1cb5-9dc2-4eb3-9f84-1c8afc8c381d)
 - **소스**: 15개 (OpenAI/Anthropic 프로그램, GitHub 성장 전략, Design Drift 문제 검증)
 
 ## 핵심 성과
-1. 45개 디자인 토큰 추출·잠금 테스트 성공
+1. 150개 디자인 토큰 추출·잠금 (BizPilot 실전 검증)
 2. `.cursorrules` 자동 생성 — AI 에이전트에게 디자인 보호 규칙 주입
-3. Drift Score 0% 확인 (변경 없을 때)
-4. npm 배포 완료 (`@stayicon/drift-guard@0.1.0`)
-5. 54개 단위 테스트 전부 통과 (CSS 파서/HTML 파서/스냅샷/드리프트/규칙 생성기)
-6. GitHub Actions CI 설정 완료 (Node 18/20/22)
+3. npm 배포 완료 (`@stayicon/drift-guard@0.1.0`)
+4. 76개 테스트 전부 통과 (54 unit + 22 E2E)
+5. GitHub Actions CI 설정 완료 (Node 18/20/22)
+6. Council 배포 준비도 검토 통과 (4/5 GO)
+7. 실전 테스트에서 치명적 버그 발견·수정 (Shadcn CSS 변수 감지)
