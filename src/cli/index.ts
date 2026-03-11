@@ -5,6 +5,7 @@ import { initCommand } from './init.js';
 import { checkCommand } from './check.js';
 import { rulesCommand } from './rules.js';
 import { snapshotCommand } from './snapshot-cmd.js';
+import { hookInstallCommand, hookUninstallCommand } from './hook.js';
 
 const program = new Command();
 
@@ -48,4 +49,20 @@ program
   .option('--from <path>', 'Update from a specific Stitch/HTML file')
   .action(snapshotCommand);
 
+const hook = program
+  .command('hook')
+  .description('Manage pre-commit hook for automatic drift checking');
+
+hook
+  .command('install')
+  .description('Install a pre-commit hook that runs drift-guard check')
+  .option('--threshold <number>', 'Drift threshold percentage for the hook', '10')
+  .action(hookInstallCommand);
+
+hook
+  .command('uninstall')
+  .description('Remove the drift-guard pre-commit hook')
+  .action(hookUninstallCommand);
+
 program.parse();
+
