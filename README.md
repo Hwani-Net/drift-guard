@@ -7,6 +7,10 @@
 [![npm version](https://badge.fury.io/js/drift-guard.svg)](https://www.npmjs.com/package/drift-guard)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<p align="center">
+  <img src="docs/assets/cli-demo.png" alt="drift-guard CLI demo" width="680">
+</p>
+
 ---
 
 ## The Problem

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>drift-guard CLI Demo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #0d1117;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 20px;
+  }
+  
+  .terminal {
+    width: 720px;
+    background: #161b22;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    overflow: hidden;
+  }
+  
+  .terminal-header {
+    background: #21262d;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .terminal-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  
+  .terminal-title {
+    color: #8b949e;
+    font-size: 13px;
+    margin-left: 8px;
+  }
+  
+  .terminal-body {
+    padding: 20px;
+    min-height: 420px;
+    color: #c9d1d9;
+    font-size: 13.5px;
+    line-height: 1.7;
+    overflow: hidden;
+  }
+  
+  .prompt { color: #58a6ff; }
+  .cmd { color: #f0f6fc; font-weight: 700; }
+  .success { color: #3fb950; }
+  .error { color: #f85149; }
+  .warning { color: #d29922; }
+  .dim { color: #484f58; }
+  .bold { font-weight: 700; color: #f0f6fc; }
+  .cyan { color: #58a6ff; }
+  .white { color: #f0f6fc; }
+  
+  .line {
+    opacity: 0;
+    transform: translateY(4px);
+    animation: fadeIn 0.3s ease forwards;
+    white-space: pre;
+  }
+  
+  @keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .cursor-blink {
+    display: inline-block;
+    width: 8px; height: 16px;
+    background: #58a6ff;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+  
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+  
+  .phase-label {
+    display: inline-block;
+    background: #1f6feb22;
+    border: 1px solid #1f6feb;
+    color: #58a6ff;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+  
+  .divider {
+    border: none;
+    border-top: 1px solid #21262d;
+    margin: 12px 0;
+  }
+
+  .controls {
+    text-align: center;
+    padding: 16px;
+  }
+  
+  .replay-btn {
+    background: #238636;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    transition: background 0.2s;
+  }
+  .replay-btn:hover { background: #2ea043; }
+</style>
+</head>
+<body>
+
+<div class="terminal">
+  <div class="terminal-header">
+    <span class="terminal-dot dot-red"></span>
+    <span class="terminal-dot dot-yellow"></span>
+    <span class="terminal-dot dot-green"></span>
+    <span class="terminal-title">drift-guard — CLI Demo</span>
+  </div>
+  <div class="terminal-body" id="output"></div>
+  <div class="controls">
+    <button class="replay-btn" id="replayBtn" onclick="replay()" style="display:none">↻ Replay</button>
+  </div>
+</div>
+
+<script>
+const output = document.getElementById('output');
+const replayBtn = document.getElementById('replayBtn');
+
+const scenes = [
+  // Phase 1: Init
+  { type: 'label', text: 'STEP 1 — Lock your design' },
+  { type: 'prompt', text: '$ npx drift-guard init', delay: 600 },
+  { type: 'blank', delay: 200 },
+  { type: 'text', text: '🛡️  <span class="bold">drift-guard init</span>', delay: 100 },
+  { type: 'blank', delay: 100 },
+  { type: 'text', text: '<span class="dim">Scanning project for design tokens...</span>', delay: 500 },
+  { type: 'blank', delay: 200 },
+  { type: 'text', text: '<span class="success">✅ Design snapshot created!</span>', delay: 100 },
+  { type: 'blank', delay: 50 },
+  { type: 'text', text: '<span class="dim">  Files scanned: </span><span class="white">3</span>', delay: 50 },
+  { type: 'text', text: '<span class="dim">  Tokens locked: </span><span class="white">45</span>', delay: 50 },
+  { type: 'text', text: '<span class="dim">  Threshold: </span><span class="white">10%</span>', delay: 50 },
+  { type: 'blank', delay: 50 },
+  { type: 'text', text: '<span class="dim">  Token Summary:</span>', delay: 50 },
+  { type: 'text', text: '<span class="dim">  🎨 color: </span><span class="white">12</span>  <span class="dim">📝 font: </span><span class="white">8</span>  <span class="dim">📏 spacing: </span><span class="white">11</span>', delay: 50 },
+  { type: 'text', text: '<span class="dim">  🌫️ shadow: </span><span class="white">4</span>  <span class="dim">⭕ radius: </span><span class="white">6</span>  <span class="dim">📐 layout: </span><span class="white">4</span>', delay: 100 },
+
+  // Divider
+  { type: 'divider', delay: 600 },
+
+  // Phase 2: AI modifies code
+  { type: 'label', text: 'STEP 2 — AI agent modifies your code...' },
+  { type: 'prompt', text: '$ claude "add a login page"', delay: 800 },
+  { type: 'text', text: '<span class="dim">  Claude changed 4 files... colors shifted, fonts replaced 😱</span>', delay: 800 },
+
+  // Divider
+  { type: 'divider', delay: 400 },
+
+  // Phase 3: Check drift
+  { type: 'label', text: 'STEP 3 — Detect the drift' },
+  { type: 'prompt', text: '$ npx drift-guard check', delay: 600 },
+  { type: 'blank', delay: 200 },
+  { type: 'text', text: '🛡️  <span class="bold">drift-guard check</span>', delay: 100 },
+  { type: 'blank', delay: 300 },
+  { type: 'text', text: '<span class="error">🚨 Drift Score: 28.89% (threshold: 10%)</span>', delay: 100 },
+  { type: 'text', text: '<span class="dim">   13 of 45 tokens changed</span>', delay: 100 },
+  { type: 'blank', delay: 50 },
+  { type: 'text', text: '<span class="bold">   Category Breakdown:</span>', delay: 50 },
+  { type: 'text', text: '   <span class="dim">🎨 color: </span><span class="error">5/12</span> (41.7%)', delay: 50 },
+  { type: 'text', text: '   <span class="dim">📝 font: </span><span class="error">4/8</span> (50.0%)', delay: 50 },
+  { type: 'text', text: '   <span class="dim">📏 spacing: </span><span class="error">3/11</span> (27.3%)', delay: 50 },
+  { type: 'text', text: '   <span class="dim">⭕ radius: </span><span class="success">0/6</span> (0%)', delay: 50 },
+  { type: 'blank', delay: 50 },
+  { type: 'text', text: '<span class="bold">   Changes:</span>', delay: 50 },
+  { type: 'text', text: '   <span class="warning">~</span> <span class="dim">src/app.css</span> color: <span class="error">#1a73e8</span> → <span class="success">#ff5722</span>', delay: 80 },
+  { type: 'text', text: '   <span class="warning">~</span> <span class="dim">src/app.css</span> background: <span class="error">#fafafa</span> → <span class="success">#121212</span>', delay: 80 },
+  { type: 'text', text: '   <span class="warning">~</span> <span class="dim">src/app.css</span> font-family: <span class="error">Inter</span> → <span class="success">Roboto</span>', delay: 80 },
+  { type: 'text', text: '   <span class="warning">~</span> <span class="dim">src/app.css</span> font-size: <span class="error">16px</span> → <span class="success">14px</span>', delay: 80 },
+  { type: 'text', text: '   <span class="dim">   ... and 9 more changes</span>', delay: 100 },
+  { type: 'blank', delay: 50 },
+  { type: 'text', text: '   <span class="warning">💡 To accept these changes, run:</span>', delay: 50 },
+  { type: 'text', text: '      <span class="cyan">npx drift-guard snapshot update</span>', delay: 200 },
+
+  // Divider
+  { type: 'divider', delay: 600 },
+
+  // Phase 4: Generate rules
+  { type: 'label', text: 'STEP 4 — Teach AI agents the rules' },
+  { type: 'prompt', text: '$ npx drift-guard rules', delay: 600 },
+  { type: 'blank', delay: 200 },
+  { type: 'text', text: '🛡️  <span class="bold">drift-guard rules</span>', delay: 100 },
+  { type: 'blank', delay: 200 },
+  { type: 'text', text: '<span class="dim">Generating AI protection rules from 45 locked tokens...</span>', delay: 300 },
+  { type: 'blank', delay: 100 },
+  { type: 'text', text: '  <span class="success">✅</span> .cursorrules', delay: 120 },
+  { type: 'text', text: '  <span class="success">✅</span> CLAUDE.md', delay: 120 },
+  { type: 'text', text: '  <span class="success">✅</span> AGENTS.md', delay: 120 },
+  { type: 'text', text: '  <span class="success">✅</span> .github/copilot-instructions.md', delay: 120 },
+  { type: 'text', text: '  <span class="success">✅</span> .clinerules', delay: 120 },
+  { type: 'blank', delay: 100 },
+  { type: 'text', text: '<span class="dim">Your AI coding agents will now protect these design tokens. 🛡️</span>', delay: 100 },
+
+  // End
+  { type: 'blank', delay: 300 },
+  { type: 'text', text: '<span class="success bold">AI should add features, not destroy design. ✨</span>', delay: 0 },
+];
+
+let lineIndex = 0;
+let timeoutId = null;
+
+function addLine(html) {
+  const div = document.createElement('div');
+  div.className = 'line';
+  div.innerHTML = html;
+  output.appendChild(div);
+  output.scrollTop = output.scrollHeight;
+}
+
+function renderScene(i) {
+  if (i >= scenes.length) {
+    replayBtn.style.display = 'inline-block';
+    return;
+  }
+  
+  const s = scenes[i];
+  
+  switch (s.type) {
+    case 'label':
+      addLine(`<span class="phase-label">${s.text}</span>`);
+      break;
+    case 'prompt':
+      addLine(`<span class="prompt">❯</span> <span class="cmd">${s.text.replace('$ ', '')}</span>`);
+      break;
+    case 'text':
+      addLine(s.text);
+      break;
+    case 'blank':
+      addLine('&nbsp;');
+      break;
+    case 'divider':
+      const hr = document.createElement('hr');
+      hr.className = 'divider line';
+      output.appendChild(hr);
+      break;
+  }
+  
+  timeoutId = setTimeout(() => renderScene(i + 1), s.delay || 100);
+}
+
+function replay() {
+  output.innerHTML = '';
+  replayBtn.style.display = 'none';
+  if (timeoutId) clearTimeout(timeoutId);
+  renderScene(0);
+}
+
+// Auto-start
+renderScene(0);
+</script>
+
+</body>
+</html>
