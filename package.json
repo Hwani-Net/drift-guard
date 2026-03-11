@@ -22,8 +22,12 @@
   "author": "drift-guard contributors",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/drift-guard"
+    "url": "git+https://github.com/Hwani-Net/drift-guard.git"
   },
+  "bugs": {
+    "url": "https://github.com/Hwani-Net/drift-guard/issues"
+  },
+  "homepage": "https://github.com/Hwani-Net/drift-guard#readme",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
