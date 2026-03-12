@@ -45,7 +45,10 @@
 - [ ] X Twitter 런칭 스레드 (docs/marketing/x-twitter-thread.md 작성 완료)
 - [x] **마케팅 콘텐츠 작성** — Show HN/Reddit/Dev.to/X 4개 채널 텍스트 완료 ✅
 - [x] **홍보물 기획안** — 3-Tier 에셋 전략 (인터랙티브 웹 데모/CLI GIF/소셜 카드)
-- [ ] **홍보물 제작** — 인터랙티브 웹 데모 + CLI 데모 GIF + 소셜 카드 4종 + README 업데이트
+- [x] **홍보물 제작** — 인터랙티브 웹 데모 + CLI 데모 이미지 + 소셜 카드 4종 + README 업데이트 ✅ 2026-03-12
+  - 🌐 데모: https://hwani-net.github.io/drift-guard/
+  - 🃏 소셜 카드: docs/assets/social-card-{problem,solution,compare,proof}.png
+  - 📝 README: 데모 링크 + Zero Dependencies 배지 + "Why CLI, Not MCP?" 섹션 추가
 - [ ] ProductHunt/DevHunt 런칭 (계정 필요)
 - [ ] awesome-ai-devtools PR
 
