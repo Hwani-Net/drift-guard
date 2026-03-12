@@ -3,11 +3,13 @@ import path from 'node:path';
 import fg from 'fast-glob';
 import { parseCss, extractCssVariables } from '../parsers/css-parser.js';
 import { parseHtml, extractStyleBlocks, extractTailwindConfig } from '../parsers/html-parser.js';
+import { computeStructureFingerprint } from '../parsers/structure-parser.js';
 import type {
   DesignSnapshot,
   DesignToken,
   TokenCategory,
   DriftGuardConfig,
+  StructureFingerprint,
 } from '../types/index.js';
 import { DEFAULT_CONFIG } from '../types/index.js';
 
@@ -180,6 +182,37 @@ export async function createSnapshot(
   const config = loadConfig(projectRoot);
   const { tokens, files } = await scanProject(projectRoot, config, stitchHtmlPath);
 
+  // Compute structure fingerprint from HTML files
+  let structure: StructureFingerprint | undefined;
+  try {
+    // Use Stitch HTML if provided, otherwise try to find an HTML file
+    let htmlForStructure: string | null = null;
+
+    if (stitchHtmlPath) {
+      const absPath = path.resolve(projectRoot, stitchHtmlPath);
+      if (fs.existsSync(absPath)) {
+        htmlForStructure = fs.readFileSync(absPath, 'utf-8');
+      }
+    } else {
+      // Try to find any HTML file in the scanned files
+      for (const file of files) {
+        if (file.endsWith('.html')) {
+          const absPath = path.join(projectRoot, file);
+          if (fs.existsSync(absPath)) {
+            htmlForStructure = fs.readFileSync(absPath, 'utf-8');
+            break;
+          }
+        }
+      }
+    }
+
+    if (htmlForStructure) {
+      structure = computeStructureFingerprint(htmlForStructure);
+    }
+  } catch {
+    // Structure fingerprint is optional — don't fail the snapshot
+  }
+
   const snapshot: DesignSnapshot = {
     version: '1.0.0',
     createdAt: new Date().toISOString(),
@@ -187,6 +220,7 @@ export async function createSnapshot(
     sourceFiles: files,
     tokens,
     summary: buildSummary(tokens),
+    structure,
   };
 
   return snapshot;

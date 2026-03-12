@@ -67,3 +67,39 @@ Stitch는 디자인 토큰(색상, radius, 폰트)을 `<style>` CSS가 아닌 `<
 - CSS 파서 수정보다 별도 추출 함수가 관심사 분리에 유리
 - `--tw-` 접두사로 CSS 변수 토큰과 네이밍 충돌 방지
 - regex 기반으로 JS 파서 의존성 없이 경량 구현
+
+---
+
+## ADR-005: DOM 구조 변경 감지 방식 — sha256 Fingerprint (2026-03-12)
+
+### 맥락
+drift-guard v0.1.x는 CSS 토큰(색상, 폰트, 간격 등)만 추적. AI가 HTML 구조를 변경해도(div 중첩 변경, 시맨틱 태그 삭제) 전혀 감지 불가. "완전한 디자인 보호"를 주장하려면 DOM 구조 추적 필수.
+
+### 결정
+`structure-parser.ts` 신규 모듈에서 cheerio DFS로 4가지 fingerprint 계산:
+1. `semanticTags`: header/nav/main/section/article/aside/footer/form/table/dialog 개수
+2. `maxDepth`: 최대 DOM 중첩 깊이
+3. `layoutHash`: display:flex/grid 요소들의 tagName.className → sha256 앞 8자
+4. `childSequenceHash`: body 직계 자식 태그 순서 → sha256 앞 8자
+
+### 이유
+- 전체 DOM 트리 직렬화 비교는 비용 과다 + whitespace noise 문제
+- fingerprint 방식은 "구조가 변했는가?"만 O(1)로 판별
+- sha256 해시가 아닌 전체 트리 diff는 v0.3.0에서 고려
+- `structure` 필드를 optional로 두어 v0.1.x 스냅샷과 하위호환
+
+---
+
+## ADR-006: MCP 래퍼를 별도 패키지로 분리 (2026-03-12)
+
+### 맥락
+drift-guard의 Programmatic API를 MCP 서버로 노출하여 Cursor/Claude Code/Codex에서 직접 사용 가능하게 해야 함. 패키지 구조 선택지: (A) 기존 패키지 내 엔트리포인트 추가, (B) 별도 npm 패키지.
+
+### 결정
+`@stayicon/drift-guard-mcp` 별도 패키지 (B안). `drift-guard-mcp/` 서브디렉토리.
+
+### 이유
+1. CLI 사용자는 `@modelcontextprotocol/sdk` + `zod` 의존성 불필요 → 설치 크기 절약
+2. MCP 래퍼 버전을 독립 관리 가능 (SDK 업데이트 시 CLI에 영향 없음)
+3. npx 원커맨드 설치: `"command": "npx", "args": ["-y", "@stayicon/drift-guard-mcp"]`
+4. Anthropic MCP Registry는 별도 npm 패키지를 권장

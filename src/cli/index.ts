@@ -18,7 +18,7 @@ program
     '  Detect and prevent design token changes during AI-assisted development.\n' +
     '  Lock your colors, fonts, spacing, and layout before AI agents touch your code.'
   )
-  .version('0.1.0');
+  .version('0.2.0');
 
 program
   .command('init')

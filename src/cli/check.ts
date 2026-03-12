@@ -88,6 +88,19 @@ function printTextReport(report: DriftReport): void {
 
   console.log();
 
+  // Structure drift (v0.2.0+)
+  if (report.structureDrift) {
+    if (report.structureDrift.changed) {
+      console.log(chalk.bold('   🏗️  Structure Drift:'));
+      for (const detail of report.structureDrift.details) {
+        console.log(chalk.yellow(`      ⚠️  ${detail}`));
+      }
+      console.log();
+    } else {
+      console.log(chalk.green('   🏗️  DOM structure: No changes detected ✅\n'));
+    }
+  }
+
   if (!report.passed) {
     console.log(chalk.yellow('   💡 To accept these changes, run:'));
     console.log(chalk.cyan('      npx drift-guard snapshot update\n'));

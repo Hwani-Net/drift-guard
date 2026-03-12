@@ -43,6 +43,8 @@ export interface DesignSnapshot {
   tokens: DesignToken[];
   /** Token count by category */
   summary: Record<TokenCategory, number>;
+  /** DOM structure fingerprint (v0.2.0+) */
+  structure?: StructureFingerprint;
 }
 
 /**
@@ -83,6 +85,32 @@ export interface DriftReport {
     changed: number;
     driftPercent: number;
   }>;
+  /** DOM structure drift report (v0.2.0+) */
+  structureDrift?: StructureDriftReport;
+}
+
+/**
+ * DOM structure fingerprint — tracks HTML layout structure
+ */
+export interface StructureFingerprint {
+  /** Semantic tag counts: { header: 1, nav: 1, main: 1, section: 3, footer: 1 } */
+  semanticTags: Record<string, number>;
+  /** Maximum DOM nesting depth */
+  maxDepth: number;
+  /** Hash of layout elements (display:flex/grid tags+classes) */
+  layoutHash: string;
+  /** Hash of body's direct child tag sequence */
+  childSequenceHash: string;
+}
+
+/**
+ * Structure drift detection result
+ */
+export interface StructureDriftReport {
+  /** Whether structure changed */
+  changed: boolean;
+  /** Human-readable change descriptions */
+  details: string[];
 }
 
 /**

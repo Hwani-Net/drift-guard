@@ -1,0 +1,47 @@
+{
+  "name": "@stayicon/drift-guard-mcp",
+  "version": "0.2.0",
+  "description": "MCP server for drift-guard — Protect your UI from AI agents' design drift via Model Context Protocol.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "design-drift",
+    "ai-coding",
+    "design-tokens",
+    "cursor",
+    "claude-code",
+    "codex"
+  ],
+  "license": "MIT",
+  "author": "drift-guard contributors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hwani-Net/drift-guard.git",
+    "directory": "drift-guard-mcp"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "drift-guard-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@stayicon/drift-guard": "^0.1.1",
+    "@modelcontextprotocol/sdk": "^1.13.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

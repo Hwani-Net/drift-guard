@@ -4,8 +4,10 @@ import type {
   DriftItem,
   DriftReport,
   TokenCategory,
+  StructureDriftReport,
 } from '../types/index.js';
 import { scanProject, loadConfig } from './snapshot.js';
+import { computeStructureFingerprint, compareStructure } from '../parsers/structure-parser.js';
 
 /**
  * Compare two tokens by their key (file + selector + property)
@@ -83,6 +85,45 @@ export async function detectDrift(
     };
   }
 
+  // Structure drift detection (v0.2.0+)
+  let structureDrift: StructureDriftReport | undefined;
+
+  if (snapshot.structure) {
+    try {
+      // Find HTML content to compute current structure
+      const config = loadConfig(projectRoot);
+      const fg = (await import('fast-glob')).default;
+      const htmlFiles = await fg(config.htmlFiles, {
+        cwd: projectRoot,
+        ignore: config.ignore,
+        absolute: false,
+      });
+
+      let htmlContent: string | null = null;
+      const fs = await import('node:fs');
+      const path = await import('node:path');
+
+      for (const file of htmlFiles) {
+        const absPath = path.join(projectRoot, file);
+        if (fs.existsSync(absPath)) {
+          htmlContent = fs.readFileSync(absPath, 'utf-8');
+          break;
+        }
+      }
+
+      if (htmlContent) {
+        const currentStructure = computeStructureFingerprint(htmlContent);
+        const details = compareStructure(snapshot.structure, currentStructure);
+        structureDrift = {
+          changed: details.length > 0,
+          details,
+        };
+      }
+    } catch {
+      // Structure comparison is optional — don't fail the check
+    }
+  }
+
   return {
     checkedAt: new Date().toISOString(),
     snapshotCreatedAt: snapshot.createdAt,
@@ -93,5 +134,6 @@ export async function detectDrift(
     passed: driftScore <= threshold,
     items: driftItems,
     categorySummary,
+    structureDrift,
   };
 }

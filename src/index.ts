@@ -11,6 +11,10 @@ export {
   driftItemsToSyncChanges,
   applySyncChanges,
 } from './core/sync.js';
+export {
+  computeStructureFingerprint,
+  compareStructure,
+} from './parsers/structure-parser.js';
 export type {
   DesignToken,
   DesignSnapshot,
@@ -23,5 +27,7 @@ export type {
   SyncResult,
   SyncDirection,
   StitchConfig,
+  StructureFingerprint,
+  StructureDriftReport,
 } from './types/index.js';
 export { DEFAULT_CONFIG } from './types/index.js';

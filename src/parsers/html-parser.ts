@@ -31,6 +31,12 @@ const TRACKED_PROPERTIES: Record<string, TokenCategory> = {
   'flex-direction': 'layout',
   'justify-content': 'layout',
   'align-items': 'layout',
+
+  // Visual effects
+  'backdrop-filter': 'other',
+  'filter': 'other',
+  'animation': 'other',
+  'transition': 'other',
 };
 
 /**

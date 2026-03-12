@@ -56,6 +56,12 @@ const CATEGORY_MAP: Record<string, TokenCategory> = {
   'grid-template-columns': 'layout',
   'grid-template-rows': 'layout',
   'position': 'layout',
+
+  // Visual effects
+  'backdrop-filter': 'other',
+  'filter': 'other',
+  'animation': 'other',
+  'transition': 'other',
 };
 
 /**
