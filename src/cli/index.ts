@@ -1,12 +1,20 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
 import chalk from 'chalk';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { initCommand } from './init.js';
 import { checkCommand } from './check.js';
 import { rulesCommand } from './rules.js';
 import { snapshotCommand } from './snapshot-cmd.js';
 import { hookInstallCommand, hookUninstallCommand } from './hook.js';
 import { syncCommand } from './sync.js';
+
+// Read version from package.json dynamically
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const pkg = JSON.parse(readFileSync(join(__dirname, '..', '..', 'package.json'), 'utf-8'));
 
 const program = new Command();
 
@@ -18,7 +26,7 @@ program
     '  Detect and prevent design token changes during AI-assisted development.\n' +
     '  Lock your colors, fonts, spacing, and layout before AI agents touch your code.'
   )
-  .version('0.2.0');
+  .version(pkg.version);
 
 program
   .command('init')
