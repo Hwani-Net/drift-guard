@@ -1,6 +1,6 @@
 {
   "name": "@stayicon/drift-guard",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Protect your UI from AI coding agents' design drift. Detect, prevent, and lock design tokens during AI-assisted development.",
   "keywords": [
     "design-drift",
