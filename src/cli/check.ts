@@ -26,6 +26,16 @@ export async function checkCommand(options: CheckOptions): Promise<void> {
     : config.threshold;
 
   console.log(chalk.bold('\n🛡️  drift-guard check\n'));
+
+  // Snapshot age warning
+  const snapshotAge = Date.now() - new Date(snapshot.createdAt).getTime();
+  const ageDays = Math.floor(snapshotAge / (1000 * 60 * 60 * 24));
+  if (ageDays >= 7) {
+    const ageStr = ageDays >= 30 ? `${Math.floor(ageDays / 30)} month(s)` : `${ageDays} days`;
+    console.log(chalk.yellow(`⚠️  Snapshot is ${ageStr} old (created ${snapshot.createdAt.split('T')[0]}).`));
+    console.log(chalk.yellow('   If your design has changed, run: ') + chalk.cyan('drift-guard init --from <latest.html>\n'));
+  }
+
   console.log(chalk.dim(`Comparing against snapshot from ${snapshot.createdAt}...\n`));
 
   // Detect drift
