@@ -1,4 +1,7 @@
 import { defineConfig } from 'tsup';
+import { readFileSync } from 'node:fs';
+
+const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'));
 
 export default defineConfig({
   entry: {
@@ -10,4 +13,7 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   target: 'node18',
+  define: {
+    'DRIFT_GUARD_VERSION': JSON.stringify(pkg.version),
+  },
 });
