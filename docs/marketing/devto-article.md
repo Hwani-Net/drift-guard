@@ -3,7 +3,7 @@ title: "How I Built drift-guard: A CLI to Stop AI Agents from Destroying Your De
 published: false
 description: "AI coding agents are great at adding features, terrible at preserving design. Here's how drift-guard locks your design tokens and DOM structure before AI touches your code."
 tags: webdev, ai, opensource, typescript
-cover_image: https://raw.githubusercontent.com/Hwani-Net/drift-guard/main/docs/assets/cli-demo.png
+cover_image: https://raw.githubusercontent.com/Hwani-Net/drift-guard/master/docs/assets/og-image.png
 canonical_url: https://github.com/Hwani-Net/drift-guard
 ---
 
@@ -24,6 +24,10 @@ I call this **Design Drift** — and after experiencing it for the 50th time, I 
 ## Introducing drift-guard
 
 **drift-guard** is a zero-config CLI that protects your UI from AI coding agents' design changes.
+
+> 🎮 **[Try the interactive demo →](https://hwani-net.github.io/drift-guard/)** See it in action, right in your browser.
+
+![drift-guard CLI demo](https://raw.githubusercontent.com/Hwani-Net/drift-guard/master/docs/assets/cli-demo.png)
 
 ```bash
 # Step 1: Lock your design
@@ -170,6 +174,7 @@ npx drift-guard rules
 npx drift-guard check
 ```
 
+- **Interactive Demo**: [hwani-net.github.io/drift-guard](https://hwani-net.github.io/drift-guard/)
 - **GitHub**: [Hwani-Net/drift-guard](https://github.com/Hwani-Net/drift-guard)
 - **npm**: [@stayicon/drift-guard](https://www.npmjs.com/package/@stayicon/drift-guard)
 - **License**: MIT
