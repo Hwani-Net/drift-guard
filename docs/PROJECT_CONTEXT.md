@@ -1,6 +1,6 @@
 # drift-guard — PROJECT_CONTEXT.md
 
-> 최종 수정: 2026-03-12 15:09 KST | 세션: 마케팅 기획 완료
+> 최종 수정: 2026-03-12 18:17 KST | 세션: 마케팅 에셋 수정 + Dev.to 게시 완료
 
 ## 프로젝트 개요
 - **이름**: drift-guard (npm: `@stayicon/drift-guard`)
@@ -41,14 +41,16 @@
 - [x] **stitch_design_audit MCP → drift-guard CLI 전환 가이드** 작성 ✅
 - [ ] Show HN 게시 — ❌ stayicon karma 1 → Show HN 일시 제한 (카르마 쌓기 필요)
 - [ ] Reddit r/webdev — ❌ Showoff Saturday 규칙 위반으로 삭제됨 → 3/15(토) 재게시 예정
-- [ ] Dev.to 기술 블로그 게시 (docs/marketing/devto-article.md 작성 완료)
-- [ ] X Twitter 런칭 스레드 (docs/marketing/x-twitter-thread.md 작성 완료)
+- [x] **Dev.to 기술 블로그 게시** ✅ 2026-03-12 — https://dev.to/hwaninet/how-i-built-drift-guard-a-cli-to-stop-ai-agents-from-destroying-your-design-3egc
+- [ ] X Twitter 런칭 스레드 — 스레드 7개 구성 완료, 브라우저 에이전트 이모지 입력 문제로 수동 게시 필요
 - [x] **마케팅 콘텐츠 작성** — Show HN/Reddit/Dev.to/X 4개 채널 텍스트 완료 ✅
 - [x] **홍보물 기획안** — 3-Tier 에셋 전략 (인터랙티브 웹 데모/CLI GIF/소셜 카드)
 - [x] **홍보물 제작** — 인터랙티브 웹 데모 + CLI 데모 이미지 + 소셜 카드 4종 + README 업데이트 ✅ 2026-03-12
   - 🌐 데모: https://hwani-net.github.io/drift-guard/
-  - 🃏 소셜 카드: docs/assets/social-card-{problem,solution,compare,proof}.png
+  - 🃏 소셜 카드: docs/assets/social-card-{problem,solution,compare,proof}.png (v2 수정 완료)
   - 📝 README: 데모 링크 + Zero Dependencies 배지 + "Why CLI, Not MCP?" 섹션 추가
+- [x] **소셜 카드 v2 수정** — Proof(CODEX::FLOW→drift-guard), Solution(scan→check) ✅ 2026-03-12
+- [x] **OG 이미지 설정** — 데모 페이지 og:image + twitter:image 메타태그 + GitHub Social Preview ✅ 2026-03-12
 - [ ] ProductHunt/DevHunt 런칭 (계정 필요)
 - [ ] awesome-ai-devtools PR
 
