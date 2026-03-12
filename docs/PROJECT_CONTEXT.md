@@ -45,8 +45,8 @@
 - [x] **Full HTML Sync 구현** — token-only → 전체 HTML 교체 (Stitch = source of truth)
 - [x] **syncFromStitch 리팩터링** — Stitch-origin(--tw-*) only remove, applySyncToHtml 추가
 - [x] **Signup 페이지 추가** — Stitch에서 디자인 → playground에 추가 + 네비게이션 연결
-- [ ] git push (최신 커밋 반영 — full sync + signup page)
-- [ ] npm version patch → npm publish (0.1.1)
+- [x] git push (최신 커밋 반영 — full sync + signup page)
+- [x] npm version patch → npm publish (0.1.1 배포 완료)
 - [ ] Show HN 게시
 - [ ] Reddit/Dev.to/X 마케팅
 
