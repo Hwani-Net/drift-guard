@@ -1,6 +1,6 @@
 # drift-guard — PROJECT_CONTEXT.md
 
-> 최종 수정: 2026-03-12 12:17 KST | 세션: v0.2.0 배포 완료
+> 최종 수정: 2026-03-12 15:09 KST | 세션: 마케팅 기획 완료
 
 ## 프로젝트 개요
 - **이름**: drift-guard (npm: `@stayicon/drift-guard`)
@@ -39,8 +39,15 @@
 - [x] **v0.2.2: 스냅샷 나이 경고** — 7일 이상 된 스냅샷 사용 시 경고 출력 ✅
 - [x] **뇽죵이 Agent 통합 가이드** — `.agent/references/drift-guard-integration.md` 작성 ✅
 - [x] **stitch_design_audit MCP → drift-guard CLI 전환 가이드** 작성 ✅
-- [ ] Show HN 게시
-- [ ] Reddit/Dev.to/X 마케팅
+- [ ] Show HN 게시 — ❌ stayicon karma 1 → Show HN 일시 제한 (카르마 쌓기 필요)
+- [ ] Reddit r/webdev — ❌ Showoff Saturday 규칙 위반으로 삭제됨 → 3/15(토) 재게시 예정
+- [ ] Dev.to 기술 블로그 게시 (docs/marketing/devto-article.md 작성 완료)
+- [ ] X Twitter 런칭 스레드 (docs/marketing/x-twitter-thread.md 작성 완료)
+- [x] **마케팅 콘텐츠 작성** — Show HN/Reddit/Dev.to/X 4개 채널 텍스트 완료 ✅
+- [x] **홍보물 기획안** — 3-Tier 에셋 전략 (인터랙티브 웹 데모/CLI GIF/소셜 카드)
+- [ ] **홍보물 제작** — 인터랙티브 웹 데모 + CLI 데모 GIF + 소셜 카드 4종 + README 업데이트
+- [ ] ProductHunt/DevHunt 런칭 (계정 필요)
+- [ ] awesome-ai-devtools PR
 
 ## 아키텍처
 ```
