@@ -45,6 +45,8 @@ export interface DesignSnapshot {
   summary: Record<TokenCategory, number>;
   /** DOM structure fingerprint (v0.2.0+) */
   structure?: StructureFingerprint;
+  /** File used for structure fingerprint (v0.2.1+) */
+  structureSourceFile?: string;
 }
 
 /**

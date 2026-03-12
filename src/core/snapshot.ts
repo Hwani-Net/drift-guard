@@ -184,6 +184,7 @@ export async function createSnapshot(
 
   // Compute structure fingerprint from HTML files
   let structure: StructureFingerprint | undefined;
+  let structureSourceFile: string | undefined;
   try {
     // Use Stitch HTML if provided, otherwise try to find an HTML file
     let htmlForStructure: string | null = null;
@@ -192,6 +193,7 @@ export async function createSnapshot(
       const absPath = path.resolve(projectRoot, stitchHtmlPath);
       if (fs.existsSync(absPath)) {
         htmlForStructure = fs.readFileSync(absPath, 'utf-8');
+        structureSourceFile = stitchHtmlPath;
       }
     } else {
       // Try to find any HTML file in the scanned files
@@ -200,6 +202,7 @@ export async function createSnapshot(
           const absPath = path.join(projectRoot, file);
           if (fs.existsSync(absPath)) {
             htmlForStructure = fs.readFileSync(absPath, 'utf-8');
+            structureSourceFile = file;
             break;
           }
         }
@@ -221,6 +224,7 @@ export async function createSnapshot(
     tokens,
     summary: buildSummary(tokens),
     structure,
+    structureSourceFile,
   };
 
   return snapshot;

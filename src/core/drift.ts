@@ -90,24 +90,34 @@ export async function detectDrift(
 
   if (snapshot.structure) {
     try {
-      // Find HTML content to compute current structure
-      const config = loadConfig(projectRoot);
-      const fg = (await import('fast-glob')).default;
-      const htmlFiles = await fg(config.htmlFiles, {
-        cwd: projectRoot,
-        ignore: config.ignore,
-        absolute: false,
-      });
-
-      let htmlContent: string | null = null;
       const fs = await import('node:fs');
       const path = await import('node:path');
+      let htmlContent: string | null = null;
 
-      for (const file of htmlFiles) {
-        const absPath = path.join(projectRoot, file);
+      // Prefer the file recorded during snapshot creation
+      if (snapshot.structureSourceFile) {
+        const absPath = path.join(projectRoot, snapshot.structureSourceFile);
         if (fs.existsSync(absPath)) {
           htmlContent = fs.readFileSync(absPath, 'utf-8');
-          break;
+        }
+      }
+
+      // Fallback: scan all HTML files (backward compat with older snapshots)
+      if (!htmlContent) {
+        const config = loadConfig(projectRoot);
+        const fg = (await import('fast-glob')).default;
+        const htmlFiles = await fg(config.htmlFiles, {
+          cwd: projectRoot,
+          ignore: config.ignore,
+          absolute: false,
+        });
+
+        for (const file of htmlFiles) {
+          const absPath = path.join(projectRoot, file);
+          if (fs.existsSync(absPath)) {
+            htmlContent = fs.readFileSync(absPath, 'utf-8');
+            break;
+          }
         }
       }
 
@@ -131,7 +141,7 @@ export async function detectDrift(
     changedTokens,
     driftScore,
     threshold,
-    passed: driftScore <= threshold,
+    passed: driftScore <= threshold && !(structureDrift?.changed),
     items: driftItems,
     categorySummary,
     structureDrift,

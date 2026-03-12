@@ -55,38 +55,40 @@ function printTextReport(report: DriftReport): void {
   console.log(`${icon} ${chalk.bold('Drift Score:')} ${scoreColor(`${report.driftScore}%`)} (threshold: ${report.threshold}%)`);
   console.log(chalk.dim(`   ${report.changedTokens} of ${report.totalTokens} tokens changed\n`));
 
-  if (report.items.length === 0) {
+  if (report.items.length === 0 && !(report.structureDrift?.changed)) {
     console.log(chalk.green('   No design drift detected. Your design is intact! 🎉\n'));
     return;
   }
 
-  // Category breakdown
-  console.log(chalk.bold('   Category Breakdown:'));
-  const categories = ['color', 'font', 'spacing', 'shadow', 'radius', 'layout'] as const;
-  for (const cat of categories) {
-    const summary = report.categorySummary[cat];
-    if (summary.total === 0) continue;
+  if (report.items.length > 0) {
+    // Category breakdown
+    console.log(chalk.bold('   Category Breakdown:'));
+    const categories = ['color', 'font', 'spacing', 'shadow', 'radius', 'layout'] as const;
+    for (const cat of categories) {
+      const summary = report.categorySummary[cat];
+      if (summary.total === 0) continue;
 
-    const catIcon = { color: '🎨', font: '📝', spacing: '📏', shadow: '🌫️', radius: '⭕', layout: '📐' }[cat];
-    const catColor = summary.changed > 0 ? chalk.red : chalk.green;
-    console.log(`   ${catIcon} ${cat}: ${catColor(`${summary.changed}/${summary.total}`)} (${summary.driftPercent}%)`);
-  }
-  console.log();
+      const catIcon = { color: '🎨', font: '📝', spacing: '📏', shadow: '🌫️', radius: '⭕', layout: '📐' }[cat];
+      const catColor = summary.changed > 0 ? chalk.red : chalk.green;
+      console.log(`   ${catIcon} ${cat}: ${catColor(`${summary.changed}/${summary.total}`)} (${summary.driftPercent}%)`);
+    }
+    console.log();
 
-  // Detailed changes (max 20)
-  const itemsToShow = report.items.slice(0, 20);
-  if (itemsToShow.length > 0) {
-    console.log(chalk.bold('   Changes:'));
-    for (const item of itemsToShow) {
-      printDriftItem(item);
+    // Detailed changes (max 20)
+    const itemsToShow = report.items.slice(0, 20);
+    if (itemsToShow.length > 0) {
+      console.log(chalk.bold('   Changes:'));
+      for (const item of itemsToShow) {
+        printDriftItem(item);
+      }
+
+      if (report.items.length > 20) {
+        console.log(chalk.dim(`   ... and ${report.items.length - 20} more changes\n`));
+      }
     }
 
-    if (report.items.length > 20) {
-      console.log(chalk.dim(`   ... and ${report.items.length - 20} more changes\n`));
-    }
+    console.log();
   }
-
-  console.log();
 
   // Structure drift (v0.2.0+)
   if (report.structureDrift) {

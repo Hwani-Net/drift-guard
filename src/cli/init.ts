@@ -50,6 +50,20 @@ export async function initCommand(options: InitOptions): Promise<void> {
     }
   }
 
+  // Structure fingerprint summary (v0.2.0+)
+  if (snapshot.structure) {
+    const s = snapshot.structure;
+    const tagList = Object.entries(s.semanticTags)
+      .filter(([, count]) => count > 0)
+      .map(([tag, count]) => `${tag}(${count})`)
+      .join(', ');
+    console.log();
+    console.log(chalk.bold('  Structure Fingerprint:'));
+    console.log(chalk.dim('  🏗️  semantic tags: ') + chalk.white(tagList));
+    console.log(chalk.dim('  🏗️  max depth: ') + chalk.white(s.maxDepth.toString()));
+    console.log(chalk.dim('  🏗️  layout hash: ') + chalk.white(s.layoutHash));
+  }
+
   console.log();
   console.log(chalk.dim('Next steps:'));
   console.log(chalk.cyan('  1. ') + 'Add .design-guard/ to .gitignore (optional)');
