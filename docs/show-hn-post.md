@@ -29,7 +29,16 @@ npx drift-guard check         # Detect drift after AI changes
 - **5 AI tools**: Cursor, Claude Code, Codex/Gemini, GitHub Copilot, Cline
 - **Pre-commit hook**: `drift-guard hook install` blocks drifted commits
 - **CI/CD ready**: `drift-guard check --ci` with exit codes
+- **Stitch/Figma sync**: `drift-guard sync` — bidirectional design-to-code synchronization
 - **Free forever**: No API keys, no subscriptions, fully local
+
+## NEW: Bidirectional Sync
+
+```
+drift-guard sync -d to-code --stitch-html design.html --apply
+```
+
+This replaces your local code with the Stitch/Figma source of truth — full HTML + CSS tokens + Tailwind config. Byte-for-byte verified. No more manual copy-paste from design tools.
 
 ## Why not visual regression testing?
 
@@ -37,7 +46,7 @@ Tools like BackstopJS/Percy work *after* deploy (QA stage) using pixel-level scr
 
 ## Tech
 
-TypeScript, css-tree for parsing, cheerio for HTML. 76 tests (54 unit + 22 E2E). MIT license.
+TypeScript, css-tree for parsing, cheerio for HTML. 117 tests (68 unit + 49 E2E). MIT license.
 
 GitHub: https://github.com/Hwani-Net/drift-guard
 npm: `npm i -g @stayicon/drift-guard`
