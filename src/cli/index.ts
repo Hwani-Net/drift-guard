@@ -6,6 +6,7 @@ import { checkCommand } from './check.js';
 import { rulesCommand } from './rules.js';
 import { snapshotCommand } from './snapshot-cmd.js';
 import { hookInstallCommand, hookUninstallCommand } from './hook.js';
+import { syncCommand } from './sync.js';
 
 const program = new Command();
 
@@ -63,6 +64,8 @@ hook
   .command('uninstall')
   .description('Remove the drift-guard pre-commit hook')
   .action(hookUninstallCommand);
+
+program.addCommand(syncCommand);
 
 program.parse();
 

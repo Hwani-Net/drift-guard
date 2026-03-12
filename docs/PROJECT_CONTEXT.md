@@ -1,6 +1,6 @@
 # drift-guard — PROJECT_CONTEXT.md
 
-> 최종 수정: 2026-03-12 09:57 KST | 세션: 조사→기획→MVP→배포→테스트→실전검증→마케팅런치→**Stitch동기화검증**
+> 최종 수정: 2026-03-12 10:59 KST | 세션: 조사→기획→MVP→배포→테스트→실전검증→마케팅런치→Stitch동기화검증→양방향Sync구현→**Full HTML Sync+Signup페이지**
 
 ## 프로젝트 개요
 - **이름**: drift-guard (npm: `@stayicon/drift-guard`)
@@ -40,7 +40,12 @@
 - [x] **Stitch HTML Tailwind config E2E 테스트 6개 추가** (색상/radius/폰트/mass drift/루프)
 - [x] **Stitch ↔ drift-guard 동기화 루프 실전 검증** (playground 프로젝트)
 - [x] **시각 비교 검증** (Stitch 스크린샷 vs 최종 코딩 결과 100% 일치 확인)
-- [ ] git push (최신 커밋 반영 — Tailwind config 파서 + 21개 E2E 추가)
+- [x] **Stitch ↔ Code 양방향 sync 커맨드 구현** (`drift-guard sync --direction to-stitch/to-code`)
+- [x] **sync 테스트 20개 추가** (14 unit + 6 E2E)
+- [x] **Full HTML Sync 구현** — token-only → 전체 HTML 교체 (Stitch = source of truth)
+- [x] **syncFromStitch 리팩터링** — Stitch-origin(--tw-*) only remove, applySyncToHtml 추가
+- [x] **Signup 페이지 추가** — Stitch에서 디자인 → playground에 추가 + 네비게이션 연결
+- [ ] git push (최신 커밋 반영 — full sync + signup page)
 - [ ] npm version patch → npm publish (0.1.1)
 - [ ] Show HN 게시
 - [ ] Reddit/Dev.to/X 마케팅
@@ -48,19 +53,19 @@
 ## 아키텍처
 ```
 src/
-├── cli/          ← 6개 커맨드 (init, check, rules, snapshot update, hook install, hook uninstall)
-├── core/         ← 3개 엔진 (snapshot, drift, rules-generator)
+├── cli/          ← 7개 커맨드 (init, check, rules, snapshot update, hook install/uninstall, sync)
+├── core/         ← 4개 엔진 (snapshot, drift, rules-generator, sync)
 ├── parsers/      ← 2개 파서 (CSS, HTML+TailwindConfig) — Shadcn/Tailwind 색상 키워드 20+개 지원
-├── types/        ← 타입 정의
+├── types/        ← 타입 정의 (SyncChange, SyncResult, StitchConfig 추가)
 └── index.ts      ← 라이브러리 API
 
 tests/
 ├── parsers/      ← css-parser (14), html-parser (12)
-├── core/         ← snapshot (8), drift (6), rules-generator (14)
-└── e2e/          ← cli (22) + real-scenario (21) — subprocess spawn 방식
+├── core/         ← snapshot (8), drift (6), rules-generator (14), sync (14)
+└── e2e/          ← cli (22) + real-scenario (21) + sync-scenario (6) — subprocess spawn 방식
 ```
 
-## 테스트 현황: 97/97 PASS
+## 테스트 현황: 117/117 PASS
 | 파일 | 테스트 수 | 내용 |
 |------|:--------:|------|
 | css-parser | 14 | CSS 파싱, 변수 추출, Shadcn/Tailwind 패턴 |
@@ -68,8 +73,10 @@ tests/
 | snapshot | 8 | 스냅샷 생성/저장/로드 |
 | drift | 6 | 드리프트 감지, 임계값, 카테고리 |
 | rules-generator | 14 | 5개 형식 AI 규칙 파일 생성 |
+| **sync** | **14** | **프롬프트 생성, syncToStitch, syncFromStitch, CSS 패치** |
 | cli (E2E) | 22 | CLI 전체 커맨드 워크플로우 |
 | real-scenario (E2E) | 21 | Shadcn CSS + Stitch HTML 실전 시나리오 |
+| **sync-scenario (E2E)** | **6** | **sync CLI: to-stitch 프롬프트, to-code 패치, JSON** |
 
 ## 절대 규칙
 - ❌ 유료 API 의존 절대 금지 (완전 로컬, 무료 오픈소스)
@@ -82,6 +89,8 @@ tests/
 - 🐛 **Stitch HTML Tailwind config 미감지 (2026-03-12)**: Stitch는 색상/radius를 `<script id="tailwind-config">` 안의 JS 객체로 정의. CSS 파서로는 감지 불가. `extractTailwindConfig()` 함수 추가하여 `<script>` 태그 내 `tailwind.config` 파싱으로 해결.
 - 🐛 **E2E 테스트 threshold 문제 (2026-03-12)**: 기본 threshold 10%에서 Shadcn 70+ 토큰 중 2-3개 변경은 ~3% drift → pass 판정. `--threshold 0`으로 엄격 감지 필요.
 - 🐛 **DriftItem 중첩 구조 (2026-03-12)**: JSON 출력의 `items[i].property`가 undefined — `items[i].original.property`로 접근 필요.
+- 🐛 **Sync false removes (2026-03-12)**: syncFromStitch가 Shadcn CSS-only 변수 32개를 "removed"로 오감지. `--tw-*` Stitch-origin만 remove 감지하도록 수정. Ralph 모드 4회 반복으로 해결.
+- 🐛 **Token-only sync 한계 (2026-03-12)**: CSS 토큰만 패치하면 텍스트("Get in Touch" vs "Contact Us"), 레이아웃 차이 무시됨. Full HTML replacement로 해결 (Stitch = source of truth).
 
 ## NLM
 - **노트북**: `oss-strategy` (ID: 9a2d1cb5-9dc2-4eb3-9f84-1c8afc8c381d)
@@ -89,14 +98,17 @@ tests/
 
 ## Stitch 프로젝트
 - **ID**: 12228941605090764853 (drift-guard-playground)
-- **스크린**: DriftApp SaaS Landing Page (f64abb0921f542edbce973ee4aa74886)
+- **스크린 1**: DriftApp SaaS Landing Page (f64abb0921f542edbce973ee4aa74886)
+- **스크린 2**: DriftApp Signup Page (fe73a0f8c2fc44c5bdf8c9526b6843b5) — NEW
 
 ## 핵심 성과
 1. 147개 디자인 토큰 추출·잠금 (Stitch HTML + CSS 변수 + Tailwind config)
 2. `.cursorrules` 자동 생성 — AI 에이전트에게 디자인 보호 규칙 주입
 3. npm 배포 완료 (`@stayicon/drift-guard@0.1.0`)
-4. 97개 테스트 전부 통과 (54 unit + 22 E2E + 21 real-scenario)
+4. 117개 테스트 전부 통과 (68 unit + 22 E2E + 21 real-scenario + 6 sync-scenario)
 5. GitHub Actions CI 설정 완료 (Node 18/20/22)
 6. Council 배포 준비도 검토 통과 (4/5 GO)
 7. Stitch ↔ drift-guard 동기화 루프 실전 검증 완료
 8. Stitch 원본 vs 최종 결과 시각 비교 100% 일치 확인
+9. **양방향 Full Stitch sync** — HTML 통째 교체 + CSS 토큰 패치 + 스냅샷 자동 업데이트 + byte-for-byte 검증
+10. **멀티 페이지**: Landing + Signup, 양방향 네비게이션 완료

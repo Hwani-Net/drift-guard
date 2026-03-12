@@ -86,6 +86,55 @@ export interface DriftReport {
 }
 
 /**
+ * Sync direction for Stitch ↔ Code synchronization
+ */
+export type SyncDirection = 'to-stitch' | 'to-code';
+
+/**
+ * A single sync change between Stitch and Code
+ */
+export interface SyncChange {
+  /** Token category */
+  category: TokenCategory;
+  /** CSS property or token name */
+  property: string;
+  /** Previous value */
+  fromValue: string;
+  /** New value */
+  toValue: string;
+  /** Type of change */
+  action: 'update' | 'add' | 'remove';
+}
+
+/**
+ * Result of a sync operation
+ */
+export interface SyncResult {
+  /** Which direction the sync goes */
+  direction: SyncDirection;
+  /** All changes detected */
+  changes: SyncChange[];
+  /** Natural language prompt for edit_screens (to-stitch only) */
+  prompt?: string;
+  /** CSS patch content (to-code only) */
+  patchFile?: string;
+  /** ISO timestamp */
+  timestamp: string;
+}
+
+/**
+ * Stitch project/screen configuration
+ */
+export interface StitchConfig {
+  /** Stitch project ID */
+  projectId?: string;
+  /** Stitch screen ID */
+  screenId?: string;
+  /** Local path to downloaded Stitch HTML */
+  htmlPath?: string;
+}
+
+/**
  * Supported AI rule file formats
  */
 export type RuleFormat =
@@ -109,6 +158,8 @@ export interface DriftGuardConfig {
   trackCategories: TokenCategory[];
   /** Files/patterns to ignore */
   ignore: string[];
+  /** Stitch project configuration (optional) */
+  stitch?: StitchConfig;
 }
 
 /**
