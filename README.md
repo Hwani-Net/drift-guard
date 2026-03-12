@@ -7,9 +7,18 @@
 [![npm version](https://img.shields.io/npm/v/@stayicon/drift-guard)](https://www.npmjs.com/package/@stayicon/drift-guard)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://img.shields.io/badge/tests-130%2F130-brightgreen)](https://github.com/Hwani-Net/drift-guard)
+[![Zero Dependencies](https://img.shields.io/badge/dependencies-zero-blue)](https://www.npmjs.com/package/@stayicon/drift-guard)
 
 <p align="center">
-  <img src="docs/assets/cli-demo.png" alt="drift-guard CLI demo" width="680">
+  <img src="docs/assets/cli-demo.png" alt="drift-guard CLI demo showing design drift detection" width="680">
+</p>
+
+<p align="center">
+  <b>
+    <a href="https://hwani-net.github.io/drift-guard/">🎮 Try the Interactive Demo</a> ·
+    <a href="https://www.npmjs.com/package/@stayicon/drift-guard">📦 npm</a> ·
+    <a href="#quick-start">🚀 Quick Start</a>
+  </b>
 </p>
 
 ---
@@ -38,6 +47,10 @@ npx drift-guard rules
 # 3. After AI makes changes, check for drift
 npx drift-guard check
 ```
+
+**Zero token overhead.** No MCP server. No configuration. Just CLI.
+
+> 📺 **[Try the Interactive Demo →](https://hwani-net.github.io/drift-guard/)** — See drift-guard in action, right in your browser.
 
 ## How It Works
 
@@ -115,7 +128,7 @@ npx drift-guard snapshot update
 ## What Gets Protected
 
 | Category | Properties | Example |
-|----------|-----------|---------|
+|----------|-----------|---------| 
 | 🎨 Colors | `color`, `background-color`, `border-color`, CSS variables | `--primary: #1a73e8` |
 | 📝 Fonts | `font-family`, `font-size`, `font-weight`, `line-height` | `font-family: Inter` |
 | 📏 Spacing | `margin`, `padding`, `gap` | `padding: 16px 24px` |
@@ -125,9 +138,9 @@ npx drift-guard snapshot update
 | ✨ Effects | `backdrop-filter`, `filter`, `animation`, `transition` | `backdrop-filter: blur(10px)` |
 | 🏗️ Structure | Semantic tags, DOM depth, layout hash, child sequence | `<header> → <nav> → <main> → <footer>` |
 
-### DOM Structure Detection (v0.2.0)
+### DOM Structure Detection (v0.2.0+)
 
-drift-guard now fingerprints your HTML structure — not just CSS tokens.
+drift-guard fingerprints your HTML structure — not just CSS tokens.
 
 ```bash
 # Initialize with structure tracking (on by default)
@@ -215,6 +228,12 @@ const rules = generateRules(snapshot, 'claude-md');
 | **Dependencies** | Zero (no browser) | Headless Chrome required |
 | **Token overhead** | 0 tokens (CLI) | N/A |
 | **Cost** | Free, forever | Percy: $99+/mo for teams |
+
+## Why CLI, Not MCP?
+
+> MCP tool registration costs ~10,000+ tokens per server at conversation start. drift-guard's CLI costs **0 tokens**. AI agents already know how to run `npx` commands.
+
+Read more: [ADR-007: CLI-First Strategy](docs/DECISIONS.md#adr-007-cli-first-전략--mcp-래퍼-배포-보류-2026-03-12)
 
 ## Philosophy
 
