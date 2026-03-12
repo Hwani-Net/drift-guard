@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drift-guard — Protect Your UI from AI Design Drift</title>
+  <meta name="description" content="Interactive demo: See how drift-guard detects and blocks AI coding agents from destroying your design tokens.">
+  <meta property="og:title" content="drift-guard — AI Design Drift Protection">
+  <meta property="og:description" content="3 commands. 130 tests. Zero token overhead. Your design survives AI.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hwani-net.github.io/drift-guard/">
+  <meta property="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Effects -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Open Source · MIT License · v0.2.2
+    </div>
+    <h1 class="hero-title">
+      AI writes code.<br>
+      <span class="gradient-text">Your design survives.</span>
+    </h1>
+    <p class="hero-subtitle">
+      drift-guard locks your design tokens before AI agents touch your code,<br>
+      then detects and blocks any unauthorized changes. Zero overhead. Pure CLI.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">130</span><span class="stat-label">Tests Passing</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">AI Tools</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">0</span><span class="stat-label">Token Overhead</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">&lt;1s</span><span class="stat-label">Check Speed</span></div>
+    </div>
+    <a href="#demo" class="hero-cta">
+      <span>Try the Interactive Demo</span>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v14m0 0l5-5m-5 5l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </header>
+
+  <!-- Interactive Demo Section -->
+  <section id="demo" class="demo-section">
+    <h2 class="section-title">See It In Action</h2>
+    <p class="section-desc">Click through each step to see how drift-guard protects your design from AI agents.</p>
+
+    <!-- Step Indicators -->
+    <div class="steps-bar">
+      <button class="step-btn active" data-step="1">
+        <span class="step-num">1</span>
+        <span class="step-text">Your Design</span>
+      </button>
+      <div class="step-connector"><div class="step-connector-fill" id="conn1"></div></div>
+      <button class="step-btn" data-step="2">
+        <span class="step-num">2</span>
+        <span class="step-text">Lock Tokens</span>
+      </button>
+      <div class="step-connector"><div class="step-connector-fill" id="conn2"></div></div>
+      <button class="step-btn" data-step="3">
+        <span class="step-num">3</span>
+        <span class="step-text">AI Modifies</span>
+      </button>
+      <div class="step-connector"><div class="step-connector-fill" id="conn3"></div></div>
+      <button class="step-btn" data-step="4">
+        <span class="step-num">4</span>
+        <span class="step-text">Drift Caught!</span>
+      </button>
+    </div>
+
+    <!-- Demo Viewport -->
+    <div class="demo-viewport">
+      <!-- Mock UI Card -->
+      <div class="demo-panel demo-ui-panel">
+        <div class="panel-header">
+          <div class="panel-dots">
+            <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+          </div>
+          <span class="panel-title" id="uiPanelTitle">your-app.html</span>
+        </div>
+        <div class="mock-ui" id="mockUI">
+          <div class="mock-nav" id="mockNav">
+            <div class="mock-logo" id="mockLogo">
+              <div class="mock-logo-icon" id="mockLogoIcon">◆</div>
+              <span id="mockLogoText">Acme SaaS</span>
+            </div>
+            <div class="mock-nav-links">
+              <span class="mock-nav-link">Features</span>
+              <span class="mock-nav-link">Pricing</span>
+              <span class="mock-nav-link mock-nav-cta" id="mockNavCta">Get Started</span>
+            </div>
+          </div>
+          <div class="mock-hero" id="mockHero">
+            <h2 class="mock-hero-title" id="mockHeroTitle">Build faster with AI</h2>
+            <p class="mock-hero-desc" id="mockHeroDesc">The modern platform for teams that ship.</p>
+            <div class="mock-hero-btns">
+              <button class="mock-btn mock-btn-primary" id="mockBtnPrimary">Start Free Trial</button>
+              <button class="mock-btn mock-btn-secondary" id="mockBtnSecondary">View Demo</button>
+            </div>
+          </div>
+          <div class="mock-cards" id="mockCards">
+            <div class="mock-card" id="card1">
+              <div class="mock-card-icon" id="cardIcon1">⚡</div>
+              <h3 class="mock-card-title">Lightning Fast</h3>
+              <p class="mock-card-desc">Sub-second builds with zero config.</p>
+            </div>
+            <div class="mock-card" id="card2">
+              <div class="mock-card-icon" id="cardIcon2">🔒</div>
+              <h3 class="mock-card-title">Secure</h3>
+              <p class="mock-card-desc">Enterprise-grade security built in.</p>
+            </div>
+            <div class="mock-card" id="card3">
+              <div class="mock-card-icon" id="cardIcon3">🚀</div>
+              <h3 class="mock-card-title">Scalable</h3>
+              <p class="mock-card-desc">From prototype to production.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Shield overlay -->
+        <div class="shield-overlay" id="shieldOverlay">
+          <div class="shield-icon">🛡️</div>
+          <span>Design Locked</span>
+        </div>
+        <!-- Drift markers -->
+        <div class="drift-markers" id="driftMarkers"></div>
+      </div>
+
+      <!-- Terminal Panel -->
+      <div class="demo-panel demo-terminal-panel">
+        <div class="panel-header panel-header-dark">
+          <div class="panel-dots">
+            <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+          </div>
+          <span class="panel-title">Terminal</span>
+        </div>
+        <div class="terminal" id="terminal">
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span>
+            <span class="terminal-cursor" id="cursor">_</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="demo-actions">
+      <button class="action-btn" id="actionBtn" onclick="advanceStep()">
+        <span id="actionIcon">🎨</span>
+        <span id="actionText">Start: See Your Beautiful Design</span>
+      </button>
+      <button class="reset-btn" id="resetBtn" onclick="resetDemo()" style="display:none;">
+        ↻ Reset Demo
+      </button>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-section">
+    <h2 class="section-title">3 Commands. That's It.</h2>
+    <div class="commands-grid">
+      <div class="command-card">
+        <div class="command-num">01</div>
+        <h3>Lock</h3>
+        <code>npx drift-guard init</code>
+        <p>Scans CSS, HTML, Tailwind config. Extracts every design token. Creates an immutable snapshot.</p>
+      </div>
+      <div class="command-card">
+        <div class="command-num">02</div>
+        <h3>Protect</h3>
+        <code>npx drift-guard rules</code>
+        <p>Generates <code>.cursorrules</code>, <code>CLAUDE.md</code>, <code>AGENTS.md</code> — AI agents now know your design is sacred.</p>
+      </div>
+      <div class="command-card">
+        <div class="command-num">03</div>
+        <h3>Guard</h3>
+        <code>npx drift-guard check</code>
+        <p>Compares current code against snapshot. Catches drift. Returns exit code 1 for CI. Under 1 second.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section class="compare-section">
+    <h2 class="section-title">Why Not Visual Regression Testing?</h2>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="highlight-col">🛡️ drift-guard</th>
+            <th>BackstopJS / Percy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>When</td><td class="highlight-col">Before commit (pre-commit)</td><td>After deploy (QA)</td></tr>
+          <tr><td>What</td><td class="highlight-col">Design tokens (code-level)</td><td>Screenshots (pixel-level)</td></tr>
+          <tr><td>AI-aware</td><td class="highlight-col">✅ Generates agent rules</td><td>❌ No AI integration</td></tr>
+          <tr><td>Speed</td><td class="highlight-col">&lt; 1 second</td><td>Minutes</td></tr>
+          <tr><td>Dependencies</td><td class="highlight-col">Zero (no browser)</td><td>Headless Chrome</td></tr>
+          <tr><td>Token overhead</td><td class="highlight-col">0 tokens (CLI)</td><td>N/A</td></tr>
+          <tr><td>Cost</td><td class="highlight-col">Free, forever</td><td>$99+/mo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-card">
+      <h2>Ready to protect your design?</h2>
+      <div class="cta-install">
+        <code id="installCmd">npx drift-guard init</code>
+        <button class="copy-btn" onclick="copyInstall()" id="copyBtn" title="Copy to clipboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
+      <div class="cta-links">
+        <a href="https://github.com/Hwani-Net/drift-guard" class="cta-link cta-link-primary" target="_blank">
+          ⭐ Star on GitHub
+        </a>
+        <a href="https://www.npmjs.com/package/@stayicon/drift-guard" class="cta-link" target="_blank">
+          📦 View on npm
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>MIT © drift-guard contributors · Made with 🛡️ for the AI-first era</p>
+  </footer>
+
+  <script src="demo.js"></script>
+</body>
+</html>
