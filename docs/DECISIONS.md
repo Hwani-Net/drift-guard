@@ -103,3 +103,30 @@ drift-guard의 Programmatic API를 MCP 서버로 노출하여 Cursor/Claude Code
 2. MCP 래퍼 버전을 독립 관리 가능 (SDK 업데이트 시 CLI에 영향 없음)
 3. npx 원커맨드 설치: `"command": "npx", "args": ["-y", "@stayicon/drift-guard-mcp"]`
 4. Anthropic MCP Registry는 별도 npm 패키지를 권장
+
+---
+
+## ADR-007: CLI-First 전략 — MCP 래퍼 배포 보류 (2026-03-12)
+
+### 맥락
+v0.2.0에서 `drift-guard-mcp/` (4개 MCP 도구)를 구현 완료. 배포 직전에 MCP 토큰 오버헤드 문제를 재검토.
+
+### 조사 결과 (2026-03-12)
+- **MCP 토큰 블로트**가 2026년 개발자 커뮤니티 최대 논쟁:
+  - Anthropic 공식: 5개 MCP 서버 = ~55K 토큰 (대화 시작 전 소비)
+  - Redis 벤치마크: 4개 서버(167도구) = ~60K 토큰
+  - Eric Holmes "MCP is dead" (HN 1위): CLI `--help` = ~200 토큰 vs MCP 초기화 = ~10,000+ 토큰 (50x 차이)
+  - Scalekit 벤치마크: 같은 작업 MCP vs CLI = 월 $55.20 vs $3.20 (17x 비용)
+- **"CLI > MCP" 추세** 형성 중 (The New Stack, Zuplo, dev.to, r/AI_Agents)
+- drift-guard 타겟 사용자 = 개발자 전용 → MCP 불필요
+- OpenAI/Anthropic 오픈소스 프로그램 자격에 MCP 여부 무관
+
+### 결정
+`@stayicon/drift-guard-mcp` npm publish를 **보류**. 코드는 git에 보존하되 배포하지 않음.
+
+### 이유
+1. CLI = 0 토큰 오버헤드 → "zero-overhead" 포지셔닝이 MCP 블로트 논쟁 속 차별점
+2. AI 에이전트는 이미 `npx drift-guard check`를 잘 실행함 → MCP 래퍼 불필요
+3. 유지보수 비용 절감 (패키지 1개 vs 2개)
+4. Show HN에서 "zero token overhead, pure CLI" 메시지가 더 공감을 얻을 것으로 판단
+5. 향후 MCP lazy hydration/progressive disclosure가 표준화되면 재검토

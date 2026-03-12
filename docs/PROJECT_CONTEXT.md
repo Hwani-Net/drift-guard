@@ -1,6 +1,6 @@
 # drift-guard — PROJECT_CONTEXT.md
 
-> 최종 수정: 2026-03-12 11:58 KST | 세션: v0.2.0 기획+구현 (P-1 DOM구조감지 + P-6A MCP래퍼)
+> 최종 수정: 2026-03-12 12:17 KST | 세션: v0.2.0 배포 완료
 
 ## 프로젝트 개요
 - **이름**: drift-guard (npm: `@stayicon/drift-guard`)
@@ -23,7 +23,7 @@
 - [x] CLI 커맨드 동작 확인 (init, check, rules, snapshot update, hook install/uninstall)
 - [x] Git 초기 커밋 완료
 - [x] GitHub 레포 생성 + 푸시 (Hwani-Net/drift-guard)
-- [x] npm 배포 (`@stayicon/drift-guard@0.1.1`)
+- [x] npm 배포 (`@stayicon/drift-guard@0.2.0`) ✅
 - [x] pre-commit hook 구현 (hook install/uninstall)
 - [x] Vitest 단위 테스트 117→130개 (전부 PASS)
 - [x] E2E 테스트 (CLI + real-scenario + sync-scenario)
@@ -31,9 +31,10 @@
 - [x] **v0.2.0 P-1: DOM 구조 fingerprint** — structure-parser.ts, snapshot에 structure 필드, drift에 structureDrift 보고
 - [x] **v0.2.0 P-2: 시각 효과 속성 추가** — backdrop-filter, filter, animation, transition
 - [x] **v0.2.0 P-6A: MCP 서버 래퍼** — drift-guard-mcp/ 별도 패키지 (4개 MCP 도구), 빌드 성공
-- [ ] npm version minor → npm publish 0.2.0 (메인 패키지)
-- [ ] cd drift-guard-mcp && npm publish (MCP 래퍼)
-- [ ] git commit + push
+- [x] npm version minor → npm publish 0.2.0 (메인 패키지) ✅ 2026-03-12 12:15
+- [ ] ~~cd drift-guard-mcp && npm publish (MCP 래퍼)~~ — CLI-first 전략으로 보류 (ADR-007)
+- [x] git commit + push (tag v0.2.0 포함) ✅ 2026-03-12 12:16
+- [x] Show HN 게시글 준비 완료 (docs/show-hn-post.md)
 - [ ] Show HN 게시
 - [ ] Reddit/Dev.to/X 마케팅
 
