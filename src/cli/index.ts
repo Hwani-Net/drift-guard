@@ -22,9 +22,11 @@ program
 
 program
   .command('init')
-  .description('Initialize drift-guard and create a design snapshot')
+  .description('Initialize drift-guard: snapshot + AI rules + git hook (all-in-one)')
   .option('--from <path>', 'Create snapshot from a Stitch/HTML file')
   .option('--threshold <number>', 'Set default drift threshold percentage', '10')
+  .option('--skip-rules', 'Skip auto-generating AGENTS.md rules file')
+  .option('--skip-hook', 'Skip auto-installing pre-commit git hook')
   .action(initCommand);
 
 program
