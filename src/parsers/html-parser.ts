@@ -121,6 +121,93 @@ export function extractStyleBlocks(htmlContent: string): string[] {
 }
 
 /**
+ * Extract design tokens from Tailwind config in <script> tags.
+ * Stitch generates HTML with tailwind config like:
+ *   <script id="tailwind-config">
+ *     tailwind.config = { theme: { extend: { colors: { "primary": "#256af4" }, ... } } }
+ *   </script>
+ */
+export function extractTailwindConfig(
+  htmlContent: string,
+  filePath: string,
+): DesignToken[] {
+  const tokens: DesignToken[] = [];
+  const $ = cheerio.load(htmlContent);
+
+  // Find script tags that contain tailwind config
+  $('script').each((_, el) => {
+    const scriptId = $(el).attr('id') ?? '';
+    const text = $(el).text();
+    if (!text) return;
+
+    // Match scripts with id="tailwind-config" or containing "tailwind.config"
+    const isTailwindConfig =
+      scriptId.toLowerCase().includes('tailwind') ||
+      text.includes('tailwind.config');
+
+    if (!isTailwindConfig) return;
+
+    // Extract colors
+    const colorsMatch = text.match(/colors\s*:\s*\{([^}]+)\}/);
+    if (colorsMatch) {
+      const colorsBlock = colorsMatch[1];
+      const colorRegex = /["']([^"']+)["']\s*:\s*["']([^"']+)["']/g;
+      let match;
+      while ((match = colorRegex.exec(colorsBlock)) !== null) {
+        tokens.push({
+          category: 'color',
+          property: `--tw-${match[1]}`,
+          value: match[2],
+          selector: '[tailwind.config]',
+          file: filePath,
+        });
+      }
+    }
+
+    // Extract borderRadius
+    const radiusMatch = text.match(/borderRadius\s*:\s*\{([^}]+)\}/);
+    if (radiusMatch) {
+      const radiusBlock = radiusMatch[1];
+      const radiusRegex = /["']([^"']+)["']\s*:\s*["']([^"']+)["']/g;
+      let match;
+      while ((match = radiusRegex.exec(radiusBlock)) !== null) {
+        tokens.push({
+          category: 'radius',
+          property: `--tw-radius-${match[1]}`,
+          value: match[2],
+          selector: '[tailwind.config]',
+          file: filePath,
+        });
+      }
+    }
+
+    // Extract fontFamily
+    const fontMatch = text.match(/fontFamily\s*:\s*\{([^}]+)\}/);
+    if (fontMatch) {
+      const fontBlock = fontMatch[1];
+      // Match: "display": ["Inter", "sans-serif"] or "body": ["Roboto"]
+      const fontRegex = /["']([^"']+)["']\s*:\s*\[([^\]]+)\]/g;
+      let match;
+      while ((match = fontRegex.exec(fontBlock)) !== null) {
+        const familyValues = match[2]
+          .split(',')
+          .map(v => v.trim().replace(/["']/g, ''))
+          .join(', ');
+        tokens.push({
+          category: 'font',
+          property: `--tw-font-${match[1]}`,
+          value: familyValues,
+          selector: '[tailwind.config]',
+          file: filePath,
+        });
+      }
+    }
+  });
+
+  return tokens;
+}
+
+/**
  * Build a human-readable selector path for an element
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

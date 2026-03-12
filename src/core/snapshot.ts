@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import { parseCss, extractCssVariables } from '../parsers/css-parser.js';
-import { parseHtml, extractStyleBlocks } from '../parsers/html-parser.js';
+import { parseHtml, extractStyleBlocks, extractTailwindConfig } from '../parsers/html-parser.js';
 import type {
   DesignSnapshot,
   DesignToken,
@@ -80,6 +80,10 @@ export async function scanProject(
         allTokens.push(...vars);
       }
       scannedFiles.push(stitchHtmlPath);
+
+      // Also extract Tailwind config from <script> tags
+      const twTokens = extractTailwindConfig(htmlContent, stitchHtmlPath);
+      allTokens.push(...twTokens);
     }
   }
 
@@ -120,6 +124,11 @@ export async function scanProject(
       const cssTokens = parseCss(block, file);
       allTokens.push(...cssTokens);
     }
+
+    // Extract Tailwind config from <script> tags
+    const twTokens = extractTailwindConfig(content, file);
+    allTokens.push(...twTokens);
+
     scannedFiles.push(file);
   }
 
