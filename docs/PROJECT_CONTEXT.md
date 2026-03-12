@@ -23,7 +23,7 @@
 - [x] CLI 커맨드 동작 확인 (init, check, rules, snapshot update, hook install/uninstall)
 - [x] Git 초기 커밋 완료
 - [x] GitHub 레포 생성 + 푸시 (Hwani-Net/drift-guard)
-- [x] npm 배포 (`@stayicon/drift-guard@0.2.0`) ✅
+- [x] npm 배포 (`@stayicon/drift-guard@0.2.2`) ✅
 - [x] pre-commit hook 구현 (hook install/uninstall)
 - [x] Vitest 단위 테스트 117→130개 (전부 PASS)
 - [x] E2E 테스트 (CLI + real-scenario + sync-scenario)
@@ -35,6 +35,10 @@
 - [ ] ~~cd drift-guard-mcp && npm publish (MCP 래퍼)~~ — CLI-first 전략으로 보류 (ADR-007)
 - [x] git commit + push (tag v0.2.0 포함) ✅ 2026-03-12 12:16
 - [x] Show HN 게시글 준비 완료 (docs/show-hn-post.md)
+- [x] **v0.2.1: 구조 드리프트 → exit code 1** — 구조 변경 시 CI 차단 가능, structureSourceFile 추적 ✅
+- [x] **v0.2.2: 스냅샷 나이 경고** — 7일 이상 된 스냅샷 사용 시 경고 출력 ✅
+- [x] **뇽죵이 Agent 통합 가이드** — `.agent/references/drift-guard-integration.md` 작성 ✅
+- [x] **stitch_design_audit MCP → drift-guard CLI 전환 가이드** 작성 ✅
 - [ ] Show HN 게시
 - [ ] Reddit/Dev.to/X 마케팅
 
@@ -93,10 +97,13 @@ tests/
 - **스크린 2**: DriftApp Signup Page (fe73a0f8c2fc44c5bdf8c9526b6843b5)
 
 ## 핵심 성과
-1. 147개 디자인 토큰 추출·잠금 (Stitch HTML + CSS 변수 + Tailwind config)
+1. 166개 디자인 토큰 추출·잠금 (Stitch HTML + CSS 변수 + Tailwind config)
 2. `.cursorrules` 자동 생성 — AI 에이전트에게 디자인 보호 규칙 주입
-3. npm 배포 완료 (`@stayicon/drift-guard@0.1.1`)
+3. npm 배포 완료 (`@stayicon/drift-guard@0.2.2`)
 4. 130개 테스트 전부 통과
 5. GitHub Actions CI 설정 완료 (Node 18/20/22)
 6. **v0.2.0**: DOM 구조 fingerprint + MCP 서버 래퍼 구현 완료
 7. Stitch ↔ drift-guard 양방향 Full HTML sync 검증 완료
+8. **v0.2.1**: 구조 드리프트 → exit code 1 + structureSourceFile 추적
+9. **v0.2.2**: 스냅샷 나이 경고 (7일 이상 시 ⚠️)
+10. **뇽죵이 Agent**: stitch_design_audit MCP → drift-guard CLI 전환 가이드 작성
