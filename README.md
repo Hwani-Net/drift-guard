@@ -4,8 +4,9 @@
 
 > When AI writes code, your design survives.
 
-[![npm version](https://badge.fury.io/js/drift-guard.svg)](https://www.npmjs.com/package/drift-guard)
+[![npm version](https://img.shields.io/npm/v/@stayicon/drift-guard)](https://www.npmjs.com/package/@stayicon/drift-guard)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://img.shields.io/badge/tests-130%2F130-brightgreen)](https://github.com/Hwani-Net/drift-guard)
 
 <p align="center">
   <img src="docs/assets/cli-demo.png" alt="drift-guard CLI demo" width="680">
@@ -121,6 +122,30 @@ npx drift-guard snapshot update
 | 🌫️ Shadows | `box-shadow`, `text-shadow` | `box-shadow: 0 4px 6px rgba(0,0,0,0.1)` |
 | ⭕ Radius | `border-radius` | `border-radius: 8px` |
 | 📐 Layout | `display`, `flex-direction`, `justify-content`, `align-items` | `display: flex` |
+| ✨ Effects | `backdrop-filter`, `filter`, `animation`, `transition` | `backdrop-filter: blur(10px)` |
+| 🏗️ Structure | Semantic tags, DOM depth, layout hash, child sequence | `<header> → <nav> → <main> → <footer>` |
+
+### DOM Structure Detection (v0.2.0)
+
+drift-guard now fingerprints your HTML structure — not just CSS tokens.
+
+```bash
+# Initialize with structure tracking (on by default)
+npx drift-guard init --from design.html
+
+# Check detects structural changes too
+npx drift-guard check
+# 🏗️ Structure Drift:
+#    ⚠️ maxDepth: 6 → 4
+#    ⚠️ section count: 3 → 2
+#    ⚠️ layoutHash changed
+```
+
+What it tracks:
+- **Semantic tags**: `header`, `nav`, `main`, `section`, `article`, `aside`, `footer` counts
+- **Max depth**: DOM nesting depth changes (AI flattening your layout)
+- **Layout hash**: `display:flex/grid` element fingerprint
+- **Child sequence**: Body direct children order changes
 
 ## Supported AI Tools
 
@@ -188,6 +213,7 @@ const rules = generateRules(snapshot, 'claude-md');
 | **AI-aware** | ✅ Generates agent rules | ❌ No AI integration |
 | **Speed** | < 1 second | Minutes (browser rendering) |
 | **Dependencies** | Zero (no browser) | Headless Chrome required |
+| **Token overhead** | 0 tokens (CLI) | N/A |
 | **Cost** | Free, forever | Percy: $99+/mo for teams |
 
 ## Philosophy
