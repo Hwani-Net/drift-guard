@@ -1,21 +1,18 @@
 # 🛡️ drift-guard
 
 <p align="center">
-  <strong>AI coding agents will break your design.<br>drift-guard won't let them.</strong>
+  <img src="https://raw.githubusercontent.com/Hwani-Net/drift-guard/master/docs/assets/hero-banner-v2.png" alt="drift-guard — Stop AI from destroying your design" width="100%">
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@stayicon/drift-guard"><img src="https://img.shields.io/npm/v/@stayicon/drift-guard" alt="npm version"></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  <a href="https://github.com/Hwani-Net/drift-guard"><img src="https://img.shields.io/badge/tests-130%2F130-brightgreen" alt="Tests"></a>
-  <a href="https://www.npmjs.com/package/@stayicon/drift-guard"><img src="https://img.shields.io/badge/dependencies-zero-blue" alt="Zero Dependencies"></a>
+  <strong>AI coding agents will break your design. drift-guard won't let them.</strong>
 </p>
 
----
-
-<!-- HERO IMAGE: Replace with animated GIF showing before/after drift detection -->
 <p align="center">
-  <img src="docs/assets/hero-banner.png" alt="drift-guard — Stop AI from destroying your design" width="800">
+  <a href="https://www.npmjs.com/package/@stayicon/drift-guard"><img src="https://img.shields.io/npm/v/@stayicon/drift-guard?style=for-the-badge&color=blue" alt="npm version"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License: MIT"></a>
+  <a href="https://github.com/Hwani-Net/drift-guard"><img src="https://img.shields.io/badge/tests-130%2F130-brightgreen?style=for-the-badge" alt="Tests"></a>
+  <a href="https://www.npmjs.com/package/@stayicon/drift-guard"><img src="https://img.shields.io/badge/dependencies-zero-blue?style=for-the-badge" alt="Zero Dependencies"></a>
 </p>
 
 <p align="center">
@@ -23,205 +20,115 @@
     <a href="https://hwani-net.github.io/drift-guard/">🎮 Interactive Demo</a> ·
     <a href="https://www.npmjs.com/package/@stayicon/drift-guard">📦 npm</a> ·
     <a href="#quick-start">🚀 Quick Start</a> ·
-    <a href="#the-workflow">⚙️ The Workflow</a>
+    <a href="#design-dictatorship">🛡️ Design Dictatorship</a>
   </b>
 </p>
 
 ---
 
-## AI Agents Are Destroying Your Designs
+## 😱 The Problem: AI Agents Are Destroying Your Designs
 
-You spent days perfecting your UI in Figma, Stitch, or v0. You brought it into the codebase. It looked *exactly* right.
+You spend days perfecting your UI in Figma, Stitch, or v0. You bring it into the codebase. It looks *exactly* right.
 
-Then you told Claude Code to *"add a login feature."*
+Then you tell an AI agent (Cursor, Claude Code, Copilot) to *"add a login feature."*
 
-<!-- SCREENSHOT: Before/After comparison — original design vs AI-drifted result -->
 <p align="center">
-  <img src="docs/assets/drift-before-after.png" alt="Design before and after AI agent drift" width="700">
+  <img src="https://raw.githubusercontent.com/Hwani-Net/drift-guard/master/docs/assets/drift-before-after.png" alt="Design before and after AI agent drift" width="850">
 </p>
 
-**Your colors changed. Your font weights shifted. Your 3-column grid became a vertical stack.**
+**Your colors change. Your font weights shift. Your 3-column grid becomes a vertical stack.**
 
-This is **Design Drift** — the #1 silent killer of AI-assisted frontend development in 2026. And it happens on *every* non-trivial AI coding session.
+This is **Design Drift** — the #1 silent killer of AI-assisted frontend development in 2026. If you're not checking every line of CSS the AI writes, your design is already dying.
 
 ---
 
-## drift-guard: 3 Commands. Total Protection.
+## 🔒 The Solution: drift-guard
+
+drift-guard is a zero-dependency CLI that locks your design tokens and DOM structure, then **forces AI agents to obey them.**
 
 ```bash
-npx drift-guard init     # 🔒 Lock your design tokens + DOM structure
-npx drift-guard rules    # 📋 Generate AI protection rules for every tool
-npx drift-guard check    # 🚨 Detect & block unauthorized design changes
+npx drift-guard init     # 1. Lock your design (CSS vars, Tailwind, DOM Structure)
+npx drift-guard rules    # 2. Inject protection rules into AI tool context
+npx drift-guard check    # 3. Detect drift & block non-compliant code
 ```
 
-<!-- CLI DEMO GIF: Replace with actual terminal recording -->
 <p align="center">
-  <img src="docs/assets/cli-demo.png" alt="drift-guard CLI demo showing design drift detection" width="680">
+  <img src="https://raw.githubusercontent.com/Hwani-Net/drift-guard/master/docs/assets/cli-demo.webp" alt="drift-guard CLI demo" width="750">
 </p>
 
-**Zero token overhead. Zero configuration. Zero dependencies. Just works.**
+---
 
-> 📺 **[Try the Interactive Demo →](https://hwani-net.github.io/drift-guard/)** — See drift-guard catch design drift, live in your browser.
+## 🏛️ Design Dictatorship Protocol (ADR-008)
+
+Why just *detect* drift when you can *prevent* it? 
+
+`drift-guard rules` generates tool-specific instructions (`.cursorrules`, `CLAUDE.md`, `AGENTS.md`) that establish a **Design Dictatorship**. It tells the AI: *"You are allowed to write logic, but you are FORBIDDEN from touching these specific design tokens."*
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Hwani-Net/drift-guard/master/docs/assets/design-dictatorship.png" alt="Design Dictatorship Illustration" width="800">
+</p>
+
+### ⚖️ The Law:
+- **Locked Tokens**: Colors, Fonts, Spacing, Radius, Shadows.
+- **Structural Integrity**: Semantic tags, nesting depth, layout fingerprints.
+- **Zero-Tolerance**: Any drift > 10% (configurable) triggers a hard failure in CI.
 
 ---
 
-## The Workflow
+## ⚡ Zero-Token Architecture: Why CLI, Not MCP?
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                                                         │
-│   STEP 1: You have a beautiful design                   │
-│   ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌────────┐          │
-│   │Color│ │Font │ │Space│ │Shadow│ │Radius  │          │
-│   └──┬──┘ └──┬──┘ └──┬──┘ └──┬───┘ └───┬────┘          │
-│      └───────┴───────┴───────┴──────────┘               │
-│                        │                                │
-│               npx drift-guard init                      │
-│                        │                                │
-│   STEP 2: Design tokens are LOCKED in snapshot.json 🔒  │
-│            ┌───────────▼────────────┐                   │
-│            │  .design-guard/        │                   │
-│            │   snapshot.json  🔒    │                   │
-│            └───────────┬────────────┘                   │
-│                        │                                │
-│               npx drift-guard rules                     │
-│                        │                                │
-│   STEP 3: AI agents receive protection rules            │
-│   ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐         │
-│   │.cur- │ │CLAU- │ │AGEN- │ │copi- │ │.cli- │         │
-│   │sor-  │ │DE.md │ │TS.md │ │lot   │ │ne-   │         │
-│   │rules │ │      │ │      │ │inst. │ │rules │         │
-│   └──────┘ └──────┘ └──────┘ └──────┘ └──────┘         │
-│                                                         │
-│   STEP 4: AI agents now KNOW your design is protected   │
-│                    🛡️ Design Survives                   │
-└─────────────────────────────────────────────────────────┘
-```
+Most AI tools suggest using **MCP (Model Context Protocol)** servers. But there's a hidden cost:
+
+| Aspect | MCP Server | **drift-guard CLI** |
+|--------|------------|----------------------|
+| **Starting Cost** | 10k - 50k tokens (Registry) | **0 tokens** |
+| **Context Load** | Heavy (Server definitions) | **Zero** |
+| **Compatibility** | Needs MCP Support | **Every CLI-capable tool** |
+| **Speed** | Network Latency | **Instant (Local)** |
+
+AI agents already know how to run terminal commands. drift-guard leverages this tribal knowledge to protect your design without eating your token budget.
 
 ---
 
-## What Does "Design Drift" Look Like?
-
-```
-🛡️  drift-guard check
-
-⚠️  Snapshot is 11 days old (created 2026-03-01).
-   If your design has changed, run: drift-guard init --from <latest.html>
-
-Comparing against snapshot from 2026-03-01...
-
-❌ Drift Score: 11.11% (threshold: 10%)
-   1 of 9 tokens changed
-
-   Changes:
-   ~ stitch-design.html --tw-primary: #8b5cf6 → #ff0000
-
-   🏗️ Structure Drift:
-      ⚠️ <header> removed (was 1)
-```
-
-**drift-guard exits with code 1.** Your pre-commit hook fires. The drifted code never lands.
-
----
-
-## Quick Start
+## 🚀 Quick Start
 
 ### 1. Lock your design
-
+Scan your project to create a snapshot of your design tokens.
 ```bash
-# Scan your project's CSS files
 npx drift-guard init
-
-# Or lock from a Stitch/Figma/v0 HTML export
-npx drift-guard init --from design.html
 ```
+*Pro tip: Use `--from design.html` to lock directly from a Stitch/Figma export.*
 
 ### 2. Generate AI protection rules
-
+Create rule files for Cursor, Claude Code, Copilot, etc.
 ```bash
-# Generate rules for ALL AI tools at once
 npx drift-guard rules
-
-# Or for a specific tool
-npx drift-guard rules --format cursorrules
-npx drift-guard rules --format claude-md
 ```
 
-This writes rule files telling every AI agent: *"These design tokens are off-limits."*
-
-### 3. Check for drift after every AI session
-
+### 3. Check for drift
+Run this after any AI session or in your CI pipeline.
 ```bash
-# Check if design tokens were changed
 npx drift-guard check
-
-# Strict mode (default threshold: 10%)
-npx drift-guard check --threshold 5
-
-# JSON output for CI pipelines
-npx drift-guard check --output json
-```
-
-### 4. Install a pre-commit hook
-
-```bash
-# Blocks drifted commits before they ever land
-npx drift-guard hook install
-```
-
-### 5. Update snapshot after intentional design changes
-
-```bash
-npx drift-guard snapshot update
 ```
 
 ---
 
-## What Gets Protected
+## ✨ Features
 
-| Category | Properties Protected | Example |
-|----------|--------------------|---------|
-| 🎨 **Colors** | `color`, `background-color`, `border-color`, CSS variables | `--primary: #1a73e8` |
-| 📝 **Fonts** | `font-family`, `font-size`, `font-weight`, `line-height` | `font-family: Inter` |
-| 📏 **Spacing** | `margin`, `padding`, `gap` | `padding: 16px 24px` |
-| 🌫️ **Shadows** | `box-shadow`, `text-shadow` | `box-shadow: 0 4px 6px rgba(0,0,0,0.1)` |
-| ⭕ **Radius** | `border-radius` | `border-radius: 8px` |
-| 📐 **Layout** | `display`, `flex-direction`, `justify-content`, `align-items` | `display: flex` |
-| ✨ **Effects** | `backdrop-filter`, `filter`, `animation`, `transition` | `backdrop-filter: blur(10px)` |
-| 🏗️ **DOM Structure** | Semantic tags, nesting depth, layout fingerprint, child order | `<header> → <nav> → <main> → <footer>` |
-
-### DOM Structure Protection (v0.2.0+)
-
-AI agents don't just change colors — they restructure your HTML. drift-guard fingerprints your DOM too.
-
-```bash
-# Check detects structural changes
-npx drift-guard check
-# 🏗️ Structure Drift:
-#    ⚠️ maxDepth: 6 → 4
-#    ⚠️ section count: 3 → 2
-#    ⚠️ layoutHash changed
-```
-
-Tracked: semantic tag counts, DOM nesting depth, flex/grid fingerprint, body child sequence.
+| Feature | Description |
+|---------|-------------|
+| 🎨 **Token Protection** | Locks HSL/HEX colors, font-families, spacing scales, and shadows. |
+| 🏗️ **DOM Fingerprinting** | (v0.2.0+) Detects when an AI agent changes your layout structure or semantic tags. |
+| 🤖 **Multi-Agent Rules** | Supports `.cursorrules`, `CLAUDE.md`, `AGENTS.md`, `.clinerules`, and more. |
+| 🪝 **Pre-commit Hooks** | Stop drifted designs from ever being committed to your main branch. |
+| 🌐 **Stitch Sync** | Seamlessly sync your code's truth back to Stitch/v0 designs. |
+| 📦 **Zero Deps** | Tiny, fast, and audit-friendly. |
 
 ---
 
-## Supported AI Tools
+## 🛠️ CI/CD Integration
 
-drift-guard generates protection rules for every major AI coding tool:
-
-| Tool | Output File |
-|------|------------|
-| **Cursor** | `.cursorrules` |
-| **Claude Code** | `CLAUDE.md` |
-| **Codex / Gemini** | `AGENTS.md` |
-| **GitHub Copilot** | `.github/copilot-instructions.md` |
-| **Cline** | `.clinerules` |
-
----
-
-## CI/CD Integration
+Block PRs that violate your design tokens.
 
 ```yaml
 # .github/workflows/design-guard.yml
@@ -232,48 +139,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
       - run: npx drift-guard check --ci
 ```
 
-<!-- SCREENSHOT: GitHub Actions check showing drift-guard pass/fail status -->
-<p align="center">
-  <img src="docs/assets/ci-check.png" alt="drift-guard GitHub Actions CI check" width="600">
-</p>
-
 ---
 
-## drift-guard vs. Visual Regression Testing
-
-| | drift-guard | BackstopJS / Percy |
-|--|-------------|-------------------|
-| **When** | Before commit (pre-commit) | After deploy (QA) |
-| **What** | Design tokens (code-level) | Screenshots (pixel-level) |
-| **AI-aware** | ✅ Generates agent rules | ❌ No AI integration |
-| **Speed** | **< 1 second** | Minutes (browser rendering) |
-| **Dependencies** | **Zero** (no browser) | Headless Chrome required |
-| **Token overhead** | **0 tokens** (CLI) | N/A |
-| **Cost** | **Free, forever** | Percy: $99+/mo for teams |
-
----
-
-## Why CLI, Not MCP?
-
-> MCP tool registration costs 10,000–55,000+ tokens per server at conversation start. drift-guard's CLI costs **zero tokens**. AI agents already know how to run `npx` commands — no registration required.
-
-Read more: [ADR-007: CLI-First Strategy](docs/DECISIONS.md#adr-007-cli-first-전략--mcp-래퍼-배포-보류-2026-03-12)
-
----
-
-## Programmatic API
+## 🎮 Programmatic API
 
 ```typescript
 import { createSnapshot, detectDrift, generateRules } from 'drift-guard';
 
 // Lock your design
-const snapshot = await createSnapshot('./my-project');
+const snapshot = await createSnapshot('./src');
+
+// Detect drift
+const report = await detectDrift('./src', snapshot);
+console.log(`Drift: ${report.driftScore}%`);
+```
+
+---
+
+## 📜 The Philosophy
+
+> **AI should add features. Not destroy design.**
+
+Your design is your brand. It represents your craft and your users' trust. **drift-guard treats design as code as law.**
+
+---
+
+## Contributing
+
+We love contributors! See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
+
+## License
+
+MIT © drift-guard contributors
+reateSnapshot('./my-project');
 
 // Detect drift against the locked snapshot
 const report = await detectDrift('./my-project', snapshot, 10);
