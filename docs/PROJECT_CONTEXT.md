@@ -1,6 +1,6 @@
 # drift-guard — PROJECT_CONTEXT.md
 
-> 최종 수정: 2026-03-12 18:17 KST | 세션: 마케팅 에셋 수정 + Dev.to 게시 완료
+> 최종 수정: 2026-03-12 18:46 KST | 세션: v0.2.4 배포 — init 원커맨드 개선 + 버전 동적 읽기
 
 ## 프로젝트 개요
 - **이름**: drift-guard (npm: `@stayicon/drift-guard`)
@@ -23,7 +23,7 @@
 - [x] CLI 커맨드 동작 확인 (init, check, rules, snapshot update, hook install/uninstall)
 - [x] Git 초기 커밋 완료
 - [x] GitHub 레포 생성 + 푸시 (Hwani-Net/drift-guard)
-- [x] npm 배포 (`@stayicon/drift-guard@0.2.2`) ✅
+- [x] npm 배포 (`@stayicon/drift-guard@0.2.4`) ✅
 - [x] pre-commit hook 구현 (hook install/uninstall)
 - [x] Vitest 단위 테스트 117→130개 (전부 PASS)
 - [x] E2E 테스트 (CLI + real-scenario + sync-scenario)
@@ -40,7 +40,10 @@
 - [x] **뇽죵이 Agent 통합 가이드** — `.agent/references/drift-guard-integration.md` 작성 ✅
 - [x] **stitch_design_audit MCP → drift-guard CLI 전환 가이드** 작성 ✅
 - [ ] Show HN 게시 — ❌ stayicon karma 1 → Show HN 일시 제한 (카르마 쌓기 필요)
-- [ ] Reddit r/webdev — ❌ Showoff Saturday 규칙 위반으로 삭제됨 → 3/15(토) 재게시 예정
+- [x] Reddit r/webdev — 2026-03-15(Sat) Posting completed. Showoff Saturday flair applied. 
+- [ ] Reddit r/webdev — ❌ AutoModerator removal (New Account). Moderator appeal in progress / Awaiting account maturity.
+- [x] **Visual Evidence 보강** — 본문 및 댓글에 Comparison Image (`drift-before-after.png`) 링크 보강 완료. ✅ 2026-03-15
+
 - [x] **Dev.to 기술 블로그 게시** ✅ 2026-03-12 — https://dev.to/hwaninet/how-i-built-drift-guard-a-cli-to-stop-ai-agents-from-destroying-your-design-3egc
 - [ ] X Twitter 런칭 스레드 — 스레드 7개 구성 완료, 브라우저 에이전트 이모지 입력 문제로 수동 게시 필요
 - [x] **마케팅 콘텐츠 작성** — Show HN/Reddit/Dev.to/X 4개 채널 텍스트 완료 ✅
@@ -51,6 +54,8 @@
   - 📝 README: 데모 링크 + Zero Dependencies 배지 + "Why CLI, Not MCP?" 섹션 추가
 - [x] **소셜 카드 v2 수정** — Proof(CODEX::FLOW→drift-guard), Solution(scan→check) ✅ 2026-03-12
 - [x] **OG 이미지 설정** — 데모 페이지 og:image + twitter:image 메타태그 + GitHub Social Preview ✅ 2026-03-12
+- [x] **v0.2.3: init 원커맨드 개선** — `init` 실행 시 AGENTS.md 자동 생성 + pre-commit hook 자동 설치 ✅ 2026-03-12
+- [x] **v0.2.4: CLI 버전 동적 읽기** — `--version`이 package.json에서 자동 읽기 (하드코딩 제거) ✅ 2026-03-12
 - [ ] ProductHunt/DevHunt 런칭 (계정 필요)
 - [ ] awesome-ai-devtools PR
 
@@ -111,7 +116,7 @@ tests/
 ## 핵심 성과
 1. 166개 디자인 토큰 추출·잠금 (Stitch HTML + CSS 변수 + Tailwind config)
 2. `.cursorrules` 자동 생성 — AI 에이전트에게 디자인 보호 규칙 주입
-3. npm 배포 완료 (`@stayicon/drift-guard@0.2.2`)
+3. npm 배포 완료 (`@stayicon/drift-guard@0.2.4`)
 4. 130개 테스트 전부 통과
 5. GitHub Actions CI 설정 완료 (Node 18/20/22)
 6. **v0.2.0**: DOM 구조 fingerprint + MCP 서버 래퍼 구현 완료
@@ -119,3 +124,5 @@ tests/
 8. **v0.2.1**: 구조 드리프트 → exit code 1 + structureSourceFile 추적
 9. **v0.2.2**: 스냅샷 나이 경고 (7일 이상 시 ⚠️)
 10. **뇽죵이 Agent**: stitch_design_audit MCP → drift-guard CLI 전환 가이드 작성
+11. **v0.2.3**: init 원커맨드 — 스냅샷 + AGENTS.md + git hook 한 번에 완료
+12. **v0.2.4**: CLI `--version`이 package.json에서 동적 읽기
