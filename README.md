@@ -159,33 +159,6 @@ console.log(`Drift: ${report.driftScore}%`);
 
 ---
 
-## 📜 The Philosophy
-
-> **AI should add features. Not destroy design.**
-
-Your design is your brand. It represents your craft and your users' trust. **drift-guard treats design as code as law.**
-
----
-
-## Contributing
-
-We love contributors! See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
-
-## License
-
-MIT © drift-guard contributors
-reateSnapshot('./my-project');
-
-// Detect drift against the locked snapshot
-const report = await detectDrift('./my-project', snapshot, 10);
-console.log(`Drift score: ${report.driftScore}%`);
-
-// Generate rules for a specific AI tool
-const rules = generateRules(snapshot, 'claude-md');
-```
-
----
-
 ## Configuration
 
 After `drift-guard init`, configure in `.design-guard/config.json`:
@@ -202,7 +175,7 @@ After `drift-guard init`, configure in `.design-guard/config.json`:
 
 ---
 
-## The Philosophy
+## 📜 The Philosophy
 
 > **AI should add features. Not destroy design.**
 
